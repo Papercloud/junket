@@ -1,4 +1,4 @@
-require "junket/engine"
+require 'junket/engine'
 
 module Junket
 end

@@ -1,0 +1,49 @@
+inherit_from: ./.rubocop_todo.yml
+
+IndentationConsistency:
+  Enabled: true
+
+IndentationWidth:
+  Enabled: true
+
+Tab:
+  Enabled: true
+
+TrailingWhitespace:
+  Enabled: true
+
+ClassLength:
+  Enabled: false
+
+Lint/ShadowingOuterLocalVariable:
+  Enabled: true
+
+Style/Alias:
+  Enabled: true
+
+Style/BracesAroundHashParameters:
+  Enabled: true
+
+Style/EmptyLineBetweenDefs:
+  Enabled: true
+
+Style/SpaceAfterComma:
+  Enabled: true
+
+Style/SpaceInsideBlockBraces:
+  Enabled: true
+
+Style/StringLiterals:
+  Enabled: true
+
+Style/LeadingCommentSpace:
+  Enabled: true
+
+Style/LineLength:
+  Enabled: false
+
+RescueModifier:
+  Enabled: false
+
+Style/IndentationWidth:
+  Enabled: true

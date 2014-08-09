@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
 
-  mount Junket::Engine => "/junket"
+  mount Junket::Engine => '/junket'
 end

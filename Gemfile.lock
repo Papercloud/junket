@@ -185,3 +185,4 @@ DEPENDENCIES
   shoulda
   sqlite3
   terminal-notifier-guard
+  thor (= 0.19.1)

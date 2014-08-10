@@ -20,9 +20,11 @@ Gem::Specification.new do |s|
   s.add_dependency 'liquid', '>= 2.6.1'
   s.add_dependency 'responders'
   s.add_dependency 'cancancan', '~> 1.9'
+  s.add_dependency 'active_model_serializers'
 
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'rspec-rails'
+  s.add_development_dependency 'json_spec'
   s.add_development_dependency 'shoulda'
   s.add_development_dependency 'rubocop'
   s.add_development_dependency 'factory_girl_rails'

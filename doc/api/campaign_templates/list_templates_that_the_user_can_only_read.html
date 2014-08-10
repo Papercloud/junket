@@ -32,10 +32,29 @@
       <h1>Campaign Templates API</h1>
 
       <div class="article">
-        <h2>Listing templates</h2>
-        <h3>GET /junket/campaign_templates</h3>
+        <h2>List templates that the user can only read</h2>
+        <h3>GET /junket/campaign_templates/example</h3>
 
 
+          <h3>Response Fields</h3>
+          <table class="response-fields table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                    <span class="name">name</span>
+                </td>
+                <td>
+                  <span class="description">New Feature</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
           <h3>Request</h3>
 
@@ -44,7 +63,7 @@
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">GET /junket/campaign_templates</pre>
+          <pre class="request route highlight">GET /junket/campaign_templates/example</pre>
 
 
 
@@ -57,8 +76,8 @@ X-Content-Type-Options: nosniff
 Content-Type: application/json; charset=utf-8
 ETag: &quot;d751713988987e9331980363e24189ce&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: c6b9ae45-cb1d-47f8-876e-1878f5c19aa2
-X-Runtime: 0.060393
+X-Request-Id: d05107b1-8875-4c0d-952e-a89f06eb0b8c
+X-Runtime: 0.006881
 Content-Length: 2</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>

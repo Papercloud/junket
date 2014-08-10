@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     junket (0.0.1)
+      active_model_serializers
       cancancan (~> 1.9)
       liquid (>= 2.6.1)
       rails (>= 3.2)
@@ -23,6 +24,8 @@ GEM
       activesupport (= 4.1.4)
       builder (~> 3.1)
       erubis (~> 2.7.0)
+    active_model_serializers (0.8.1)
+      activemodel (>= 3.0)
     activemodel (4.1.4)
       activesupport (= 4.1.4)
       builder (~> 3.1)
@@ -64,6 +67,9 @@ GEM
     hike (1.2.3)
     i18n (0.6.11)
     json (1.8.1)
+    json_spec (1.1.2)
+      multi_json (~> 1.0)
+      rspec (>= 2.0, < 4.0)
     liquid (2.6.1)
     listen (2.7.9)
       celluloid (>= 0.15.2)
@@ -178,6 +184,7 @@ PLATFORMS
 DEPENDENCIES
   factory_girl_rails
   guard-rspec
+  json_spec
   junket!
   rspec-rails
   rspec_api_documentation

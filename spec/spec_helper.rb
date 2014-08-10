@@ -6,6 +6,7 @@ require 'shoulda'
 require 'factory_girl'
 require 'rspec_api_documentation'
 require 'rspec_api_documentation/dsl'
+require 'json_spec'
 
 require 'junket'
 
@@ -16,6 +17,7 @@ Rails.backtrace_cleaner.remove_silencers!
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
+  config.include JsonSpec::Helpers
 
   def stub_current_user
     before :each do

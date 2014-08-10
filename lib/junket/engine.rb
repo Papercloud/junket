@@ -11,5 +11,6 @@ module Junket
     end
 
     require 'cancancan'
+    require 'active_model_serializers'
   end
 end

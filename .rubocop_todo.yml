@@ -19,6 +19,9 @@ Style/Documentation:
 Style/EmptyLines:
   Enabled: false
 
+Style/Encoding:
+  Enabled: false
+
 # Offense count: 1
 # Cop supports --auto-correct.
 Style/SpecialGlobalVars:

@@ -19,8 +19,11 @@ ActiveRecord::Schema.define(version: 20_140_809_072_217) do
     t.string 'email_subject'
     t.text 'email_body'
     t.text 'sms_body'
-    t.boolean 'send_email'
-    t.boolean 'send_sms'
+    t.boolean 'send_email',    default: true
+    t.boolean 'send_sms',      default: true
+    t.string 'access_level',  default: 'private'
+    t.integer 'owner_id'
+    t.string 'owner_type'
     t.datetime 'created_at'
     t.datetime 'updated_at'
   end

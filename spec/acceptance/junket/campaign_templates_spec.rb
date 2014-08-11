@@ -4,6 +4,7 @@ resource 'Campaign Templates' do
 
   before :each do
     create(:junket_campaign_template)
+    create(:junket_campaign_template, access_level: :private, owner_id: 1, owner_type: 'OpenStruct')
   end
 
   def expect_attributes
@@ -30,7 +31,7 @@ resource 'Campaign Templates' do
     end
   end
 
-  get '/junket/campaign_templates/example' do
+  get '/junket/campaign_templates/public' do
     example 'List templates that the user can only read' do
       do_request
       expect(status).to eq 200

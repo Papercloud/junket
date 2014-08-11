@@ -9,10 +9,10 @@ class Junket::CampaignTemplatesController < Junket::ApplicationController
   end
 
   def mine
-    respond_with(@campaign_templates)
+    respond_with(@campaign_templates.where(access_level: :private))
   end
 
-  def example
-    respond_with(@campaign_templates)
+  def public
+    respond_with(@campaign_templates.where(access_level: :public))
   end
 end

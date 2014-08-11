@@ -12,5 +12,11 @@ module Junket
 
     require 'cancancan'
     require 'active_model_serializers'
+
+    config.after_initialize do
+      if defined? FactoryGirl
+        FactoryGirl.definition_file_paths << Junket::Engine.root.join('spec/factories')
+      end
+    end
   end
 end

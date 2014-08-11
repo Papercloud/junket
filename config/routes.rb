@@ -7,7 +7,7 @@ Junket::Engine.routes.draw do
     get :mine, on: :collection
 
     # Templates the user can only read
-    get :example, on: :collection
+    get :public, on: :collection
   end
 
 end

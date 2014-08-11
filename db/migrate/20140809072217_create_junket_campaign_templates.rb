@@ -6,8 +6,11 @@ class CreateJunketCampaignTemplates < ActiveRecord::Migration
       t.string :email_subject
       t.text :email_body
       t.text :sms_body
-      t.boolean :send_email
-      t.boolean :send_sms
+      t.boolean :send_email, default: true
+      t.boolean :send_sms, default: true
+      t.string :access_level, default: :private
+      t.integer :owner_id
+      t.string :owner_type
 
       t.timestamps
     end

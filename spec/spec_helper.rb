@@ -6,6 +6,7 @@ require 'shoulda'
 require 'factory_girl'
 require 'rspec_api_documentation'
 require 'rspec_api_documentation/dsl'
+require 'database_cleaner'
 require 'json_spec'
 
 require 'junket'
@@ -19,9 +20,24 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include JsonSpec::Helpers
 
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
+
   def stub_current_user
     before :each do
-      allow_any_instance_of(Junket::ApplicationController).to receive(:current_user).and_return(OpenStruct.new)
+      allow_any_instance_of(Junket::ApplicationController).to receive(:current_user).and_return(current_user)
     end
+  end
+
+  def current_user
+    OpenStruct.new(id: 1)
   end
 end

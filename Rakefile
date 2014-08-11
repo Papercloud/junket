@@ -17,4 +17,10 @@ end
 APP_RAKEFILE = File.expand_path('../spec/dummy/Rakefile', __FILE__)
 load 'rails/tasks/engine.rake'
 
+RspecApiDocumentation.configure do |config|
+  # Output folder. The aim here is to output to the engine's directory in dev.
+  # Not sure if it will work: might screw with RspecApiDocumentation in the host app too.
+  config.docs_dir = Junket::Engine.root.join('doc', 'api')
+end
+
 Bundler::GemHelper.install_tasks

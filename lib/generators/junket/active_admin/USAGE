@@ -1,0 +1,9 @@
+Description:
+    Install a starting point for Active Admin resources to manage Junket models.
+
+Example:
+    rails generate junket:active_admin
+
+    This will create:
+        app/admin/junket_campaign_template.rb
+        app/admin/junket_filter.rb

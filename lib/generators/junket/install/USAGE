@@ -1,0 +1,9 @@
+Description:
+    Install Junket by copying in migrations and an initializer
+
+Example:
+    rails generate junket:install
+
+    This will create:
+        config/initializers/junket.rb
+        db/migrate/...create_junket_campaign_templates.junket.rb

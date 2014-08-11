@@ -7,6 +7,7 @@
 #  term       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#  value_type :string(255)
 #
 
 require 'rails_helper'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_140_811_043_920) do
+ActiveRecord::Schema.define(version: 20_140_811_064_700) do
 
   create_table 'junket_campaign_templates', force: true do |t|
     t.string 'name'
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20_140_811_043_920) do
     t.string 'term'
     t.datetime 'created_at'
     t.datetime 'updated_at'
+    t.string 'value_type'
   end
 
 end

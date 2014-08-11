@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: junket_campaign_templates
+#
+#  id            :integer          not null, primary key
+#  name          :string(255)
+#  campaign_name :string(255)
+#  email_subject :string(255)
+#  email_body    :text
+#  sms_body      :text
+#  send_email    :boolean          default(TRUE)
+#  send_sms      :boolean          default(TRUE)
+#  access_level  :string(255)      default("private")
+#  owner_id      :integer
+#  owner_type    :string(255)
+#  created_at    :datetime
+#  updated_at    :datetime
+#
+
 RSpec.describe Junket::CampaignTemplate do
   it { should validate_presence_of :name }
   it { should_not validate_presence_of :campaign_name }

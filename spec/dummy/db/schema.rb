@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_140_809_072_217) do
+ActiveRecord::Schema.define(version: 20_140_811_043_920) do
 
   create_table 'junket_campaign_templates', force: true do |t|
     t.string 'name'
@@ -24,6 +24,37 @@ ActiveRecord::Schema.define(version: 20_140_809_072_217) do
     t.string 'access_level',  default: 'private'
     t.integer 'owner_id'
     t.string 'owner_type'
+    t.datetime 'created_at'
+    t.datetime 'updated_at'
+  end
+
+  create_table 'junket_campaign_templates_junket_filter_conditions', id: false, force: true do |t|
+    t.integer 'junket_campaign_template_id', null: false
+    t.integer 'junket_filter_condition_id',  null: false
+  end
+
+  create_table 'junket_campaigns', force: true do |t|
+    t.string 'name'
+    t.datetime 'send_at'
+    t.integer 'owner_id'
+    t.string 'owner_type'
+    t.integer 'campaign_template_id'
+    t.datetime 'created_at'
+    t.datetime 'updated_at'
+  end
+
+  create_table 'junket_filter_conditions', force: true do |t|
+    t.integer 'filter_id'
+    t.string 'value'
+    t.datetime 'created_at'
+    t.datetime 'updated_at'
+  end
+
+  add_index 'junket_filter_conditions', ['filter_id'], name: 'index_junket_filter_conditions_on_filter_id'
+
+  create_table 'junket_filters', force: true do |t|
+    t.string 'name'
+    t.string 'term'
     t.datetime 'created_at'
     t.datetime 'updated_at'
   end

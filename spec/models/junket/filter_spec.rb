@@ -10,8 +10,6 @@
 #  value_type :string(255)
 #
 
-require 'rails_helper'
-
 module Junket
   RSpec.describe Filter, type: :model do
     pending "add some examples to (or delete) #{__FILE__}"

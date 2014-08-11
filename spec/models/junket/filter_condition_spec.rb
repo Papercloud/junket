@@ -9,8 +9,6 @@
 #  updated_at :datetime
 #
 
-require 'rails_helper'
-
 module Junket
   RSpec.describe FilterCondition, type: :model do
     pending "add some examples to (or delete) #{__FILE__}"

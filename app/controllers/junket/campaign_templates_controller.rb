@@ -15,4 +15,8 @@ class Junket::CampaignTemplatesController < Junket::ApplicationController
   def public
     respond_with(@campaign_templates.where(access_level: :public))
   end
+
+  def show
+    respond_with(@campaign_template)
+  end
 end

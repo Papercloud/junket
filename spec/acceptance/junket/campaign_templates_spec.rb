@@ -3,12 +3,12 @@ resource 'Campaign Templates' do
   stub_current_user
 
   before :each do
-    create(:junket_campaign_template)
+    create(:junket_campaign_template, access_level: :public)
     create(:junket_campaign_template, access_level: :private, owner_id: 1, owner_type: 'OpenStruct')
   end
 
   def expect_attributes
-    [:id, :send_sms, :send_email, :email_subject, :email_body, :sms_body].each do |attribute|
+    [:id, :name, :send_sms, :send_email, :email_subject, :email_body, :sms_body].each do |attribute|
       expect(response_body).to have_json_path("campaign_templates/0/#{attribute}")
     end
   end
@@ -36,6 +36,14 @@ resource 'Campaign Templates' do
       do_request
       expect(status).to eq 200
       expect_attributes
+    end
+  end
+
+  get '/junket/campaign_templates/:id' do
+    example 'Get a single template' do
+      do_request(id: Junket::CampaignTemplate.first.id)
+      expect(status).to eq 200
+      expect(response_body).to have_json_path('campaign_template/id')
     end
   end
 end

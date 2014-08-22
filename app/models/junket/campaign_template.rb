@@ -44,7 +44,7 @@ class Junket::CampaignTemplate < ActiveRecord::Base
   validates :send_sms, acceptance: { accept: true }, unless: :send_email?
   validates :send_email, acceptance: { accept: true }, unless: :send_sms?
 
-  validates :access_level, inclusion: { in: [:public, :private] }
+  validates :access_level, inclusion: { in: %w(public private) }
 
   ## Scopes
 

@@ -17,6 +17,8 @@
 #  updated_at    :datetime
 #
 
+# Represents the content for a mail-out. Can be used as a 'cookie-cutter' for
+# multiple campaigns (mail-outs), or represent the content of a single customised mail-out.
 class Junket::CampaignTemplate < ActiveRecord::Base
   ## Associations
 

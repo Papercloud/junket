@@ -9,3 +9,6 @@ Manage campaign templates, target users, send mail and SMS, and collect reportin
 
 #### Re-generate Docs
 `rake app:docs:generate`
+
+#### TODOs
+Need to record each recipient once sent, in case a Filter is deleted after using.

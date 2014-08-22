@@ -9,8 +9,8 @@
 #  updated_at :datetime
 #
 
-module Junket
-  class FilterCondition < ActiveRecord::Base
-    belongs_to :filter
-  end
+# Represents an instance of a Junket::Filter with a given value,
+# used with other FilterConditions to create a targeted recipient list.
+class Junket::FilterCondition < ActiveRecord::Base
+  belongs_to :filter
 end

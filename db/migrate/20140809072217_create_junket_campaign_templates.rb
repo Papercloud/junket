@@ -8,9 +8,8 @@ class CreateJunketCampaignTemplates < ActiveRecord::Migration
       t.text :sms_body
       t.boolean :send_email, default: true
       t.boolean :send_sms, default: true
-      t.string :access_level, default: :private
-      t.integer :owner_id
-      t.string :owner_type
+      t.string :access_level, default: :private, index: true
+      t.references :owner, polymorphic: true, index: true
 
       t.timestamps
     end

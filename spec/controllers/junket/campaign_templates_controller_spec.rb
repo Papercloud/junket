@@ -72,7 +72,7 @@ describe Junket::CampaignTemplatesController, type: :controller do
 
     it 'cannot create a template with a disallowed access level' do
       post :create, campaign_template: attributes_for(:junket_campaign_template, access_level: :public, owner_id: 1, owner_type: 'AdminUser')
-      expect(response.response_code).to eq 406
+      expect(response.response_code).to eq 403
     end
 
   end

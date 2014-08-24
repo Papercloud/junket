@@ -15,4 +15,10 @@ class Junket::ApplicationController < ::ApplicationController
   def default_format_json
     request.format = :json unless params[:format]
   end
+
+  rescue_from CanCan::AccessDenied do |error|
+    render json: {
+      message: error.message
+    },     status: :forbidden
+  end
 end

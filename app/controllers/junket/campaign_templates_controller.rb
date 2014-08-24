@@ -28,16 +28,12 @@ class Junket::CampaignTemplatesController < Junket::ApplicationController
   def update
     @campaign_template.update!(campaign_template_params)
     respond_with(@campaign_template)
-
-    # TODO: Responder needs to respond with the object serializers after a PUT.
   end
 
   # Create a template
   def create
     @campaign_template = Junket::CampaignTemplate.create(campaign_template_params)
     respond_with(@campaign_template)
-
-    # TODO: Needs to catch a CanCan::AccessDenied exception and return 406
   end
 
   private

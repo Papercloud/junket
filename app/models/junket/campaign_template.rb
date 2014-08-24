@@ -57,4 +57,10 @@ class Junket::CampaignTemplate < ActiveRecord::Base
   def self.private
     where(access_level: :private)
   end
+
+  # Customer setter for access_level to ensure it's a string, to prevent
+  # unintentionally tripping its inclusion validation.
+  def access_level=(new_level)
+    super new_level.to_s
+  end
 end

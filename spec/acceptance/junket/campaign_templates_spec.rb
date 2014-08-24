@@ -52,8 +52,8 @@ resource 'Campaign Templates' do
       new_subject = 'My New Subject'
       do_request(id: @my_template.id, campaign_template: { email_subject: new_subject })
 
-      expect(status).to eq 204
-      expect(response_body).to have_json_value('campaign_template/email_subject', new_subject)
+      expect(status).to eq 200
+      expect(parse_json(response_body)['campaign_template']['email_subject']).to eq 'My New Subject'
     end
   end
 

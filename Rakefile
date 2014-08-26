@@ -5,6 +5,7 @@ rescue LoadError
 end
 
 require 'rdoc/task'
+require 'rspec_api_documentation'
 
 RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'

@@ -13,8 +13,9 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :junket_filter, class: 'Filter' do
+  factory :junket_filter, class: 'Junket::Filter' do
     name 'MyString'
     term 'MyString'
+    value_type 'boolean'
   end
 end

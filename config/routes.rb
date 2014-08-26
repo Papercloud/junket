@@ -8,6 +8,8 @@ Junket::Engine.routes.draw do
 
     # Templates the user can only read
     get :public, on: :collection
+
+    resources :filter_conditions
   end
 
 end

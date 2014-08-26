@@ -11,6 +11,10 @@
 
 # Represents an instance of a Junket::Filter with a given value,
 # used with other FilterConditions to create a targeted recipient list.
+# These are defined by users and attached to CampaignTemplates.
 class Junket::FilterCondition < ActiveRecord::Base
   belongs_to :filter
+  belongs_to :campaign_template
+
+  validates :filter, :campaign_template, presence: true
 end

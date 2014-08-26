@@ -12,7 +12,11 @@
 #  updated_at           :datetime
 #
 
-module Junket
-  class Campaign < ActiveRecord::Base
-  end
+# Represents a single send-out of emails and SMSs to many users.
+class Junket::Campaign < ActiveRecord::Base
+  # Defines the message content and targeting filters.
+  belongs_to :campaign_template
+
+  # Used to record which user sent this campaign.
+  belongs_to :owner, polymorphic: true
 end

@@ -2,6 +2,7 @@
 # Inherits from the host app's ApplicationController
 class Junket::ApplicationController < ::ApplicationController
   responders :json
+  respond_to :json
 
   def current_ability
     @current_ability ||= Junket::Ability.new(current_junket_user)

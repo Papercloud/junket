@@ -13,7 +13,13 @@ resource 'Campaign Templates' do
     end
   end
 
-  response_field :name, 'New Feature' # , :scope => :the_scope
+  response_field :name, 'Name of the template'
+  response_field :campaign_name, 'Template for the name of a campaign using this campaign'
+  response_field :email_subject, 'Template for the email subject'
+  response_field :email_body, 'Liquid template for the email body'
+  response_field :sms_body, 'Template for the SMS body'
+  response_field :send_email, 'Whether to send email'
+  response_field :send_sms, 'Whether to send SMS'
 
   get '/junket/campaign_templates' do
     example 'List all templates that the user can read' do

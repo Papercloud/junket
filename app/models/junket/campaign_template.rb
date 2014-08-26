@@ -26,7 +26,11 @@ class Junket::CampaignTemplate < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
 
   # Pre-defined filters for this campaign for the user's convenience.
-  has_and_belongs_to_many :filter_conditions
+  has_many :filter_conditions, dependent: :destroy
+
+  # Uses of this template. Don't allow deletion of the template if it's used on a
+  # campaign, as the template holds the campaign's copy.
+  has_many :campaigns, dependent: :restrict_with_error
 
   ## Validations
 

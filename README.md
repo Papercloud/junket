@@ -1,5 +1,7 @@
 ## Junket
 
+[![Build Status](https://travis-ci.org/Papercloud/junket.svg?branch=master)](https://travis-ci.org/Papercloud/junket)
+
 Power email and SMS campaigns in multi-tenant apps
 
 Manage campaign templates, target users, send mail and SMS, and collect reporting.

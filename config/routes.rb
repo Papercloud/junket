@@ -12,4 +12,6 @@ Junket::Engine.routes.draw do
     resources :filter_conditions
   end
 
+  resources :filters, only: [:index]
+
 end

@@ -1,10 +1,7 @@
 require_dependency 'junket/application_controller'
 
 class Junket::FilterConditionsController < Junket::ApplicationController
-  load_and_authorize_resource :campaign_template,
-                              # Class specified because CanCanCan 1.9.2 doesn't handle namespaces well: https://github.com/CanCanCommunity/cancancan/pull/110
-                              class: Junket::CampaignTemplate
-  load_and_authorize_resource through: :campaign_template
+  load_and_authorize_resource
 
   def index
     respond_with(@filter_conditions)
@@ -15,7 +12,7 @@ class Junket::FilterConditionsController < Junket::ApplicationController
   end
 
   def create
-    @filter_condition = @campaign_template.filter_conditions.create(filter_condition_params)
+    @filter_condition.save
     respond_with(@filter_condition)
   end
 
@@ -32,6 +29,6 @@ class Junket::FilterConditionsController < Junket::ApplicationController
   private
 
   def filter_condition_params
-    params.require(:filter_condition).permit(:id, :value, :filter_id)
+    params.require(:filter_condition).permit(:id, :value, :filter_id, :campaign_template_id)
   end
 end

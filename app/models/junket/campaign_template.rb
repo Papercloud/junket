@@ -30,7 +30,7 @@ class Junket::CampaignTemplate < ActiveRecord::Base
 
   # Uses of this template. Don't allow deletion of the template if it's used on a
   # campaign, as the template holds the campaign's copy.
-  has_many :campaigns, dependent: :restrict_with_error
+  has_many :campaigns
 
   ## Validations
 

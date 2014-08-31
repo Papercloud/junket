@@ -27,7 +27,7 @@ resource 'Filter Conditions' do
 
   post '/junket/campaign_templates/:campaign_template_id/filter_conditions' do
     example 'Create a new filter condition' do
-      do_request campaign_template_id: @template.id, filter_condition: attributes_for(:junket_filter_condition).merge(filter_id: create(:junket_filter).id)
+      do_request campaign_template_id: @template.id, filter_condition: attributes_for(:junket_filter_condition).merge(filter_id: create(:junket_filter).id, campaign_template_id: @template.id)
 
       expect(status).to eq 201
       expect(response_body).to have_json_path('filter_condition/id')

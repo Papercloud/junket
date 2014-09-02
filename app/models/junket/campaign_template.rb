@@ -15,6 +15,7 @@
 #  owner_type    :string(255)
 #  created_at    :datetime
 #  updated_at    :datetime
+#  type          :string(255)
 #
 
 # Represents the content for a mail-out. Can be used as a 'cookie-cutter' for
@@ -66,5 +67,18 @@ class Junket::CampaignTemplate < ActiveRecord::Base
   # unintentionally tripping its inclusion validation.
   def access_level=(new_level)
     super new_level.to_s
+  end
+
+  # Targeting
+
+  def targets
+    base_targets = Junket.targets.call(self)
+
+    # Build Ransack query with all filter conditions
+    query = self.filter_conditions.each_with_object({}) do |condition,q|
+      q[condition.filter.term] = condition.value
+    end
+
+    base_targets.search(query).result(distinct: true)
   end
 end

@@ -15,6 +15,7 @@
 #  owner_type    :string(255)
 #  created_at    :datetime
 #  updated_at    :datetime
+#  type          :string(255)
 #
 
 RSpec.describe Junket::CampaignTemplate do

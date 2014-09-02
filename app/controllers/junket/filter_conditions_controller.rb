@@ -4,6 +4,7 @@ class Junket::FilterConditionsController < Junket::ApplicationController
   load_and_authorize_resource
 
   def index
+    # TODO: This isn't going to return only one campaign's conditions when nested
     respond_with(@filter_conditions)
   end
 
@@ -17,7 +18,7 @@ class Junket::FilterConditionsController < Junket::ApplicationController
   end
 
   def update
-    @filter_condition.update(filter_condition_params)
+    @filter_condition.update_attributes(filter_condition_params)
     respond_with(@filter_condition)
   end
 

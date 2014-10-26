@@ -7,6 +7,15 @@ module Junket
   mattr_accessor :targets
   @targets = nil
 
+  mattr_accessor :sms_adapter
+  @sms_adapter = nil
+
+  mattr_accessor :sms_from_name
+  @sms_from_name = nil
+
+  mattr_accessor :email_adapter
+  @email_adapter = nil
+
   # Used to set up Junket from the initializer.
   def self.setup
     yield self

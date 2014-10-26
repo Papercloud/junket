@@ -31,6 +31,12 @@ RSpec.configure do |config|
     end
   end
 
+  config.include(Module.new do
+    def self.included(base)
+      base.routes { Junket::Engine.routes }
+    end
+  end, type: :controller)
+
   def stub_current_user
     before :each do
       allow_any_instance_of(Junket::ApplicationController).to receive(:current_user).and_return(current_user)

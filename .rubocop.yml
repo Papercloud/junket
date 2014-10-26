@@ -19,6 +19,9 @@ TrailingWhitespace:
 ClassLength:
   Enabled: false
 
+Lambda:
+  Enabled: false
+
 Lint/ShadowingOuterLocalVariable:
   Enabled: true
 

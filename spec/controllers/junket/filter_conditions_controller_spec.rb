@@ -2,8 +2,6 @@
 
 describe Junket::FilterConditionsController, type: :controller do
 
-  routes { Junket::Engine.routes }
-
   stub_current_user
 
   describe 'PUT /junket/campaign_templates/:campaign_template_id/filter_conditions/:id' do

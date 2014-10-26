@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140811064700) do
+ActiveRecord::Schema.define(version: 20141026094405) do
 
   create_table "junket_campaign_templates", force: true do |t|
     t.string   "name"
@@ -26,21 +26,11 @@ ActiveRecord::Schema.define(version: 20140811064700) do
     t.string   "owner_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "type"
+    t.string   "state"
   end
 
   add_index "junket_campaign_templates", ["owner_id", "owner_type"], name: "index_junket_campaign_templates_on_owner_id_and_owner_type"
-
-  create_table "junket_campaigns", force: true do |t|
-    t.string   "name"
-    t.datetime "send_at"
-    t.integer  "owner_id"
-    t.string   "owner_type"
-    t.integer  "campaign_template_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "junket_campaigns", ["owner_id", "owner_type"], name: "index_junket_campaigns_on_owner_id_and_owner_type"
 
   create_table "junket_filter_conditions", force: true do |t|
     t.integer  "filter_id"
@@ -59,6 +49,28 @@ ActiveRecord::Schema.define(version: 20140811064700) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "value_type"
+  end
+
+  create_table "junket_recipients", force: true do |t|
+    t.integer  "target_id"
+    t.string   "target_type"
+    t.integer  "campaign_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "email_third_party_id"
+  end
+
+  add_index "junket_recipients", ["campaign_id"], name: "index_junket_recipients_on_campaign_id"
+  add_index "junket_recipients", ["email_third_party_id"], name: "index_junket_recipients_on_email_third_party_id"
+  add_index "junket_recipients", ["target_id", "target_type"], name: "index_junket_recipients_on_target_id_and_target_type"
+
+  create_table "users", force: true do |t|
+    t.string   "email"
+    t.string   "mobile"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

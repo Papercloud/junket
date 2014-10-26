@@ -22,6 +22,11 @@ Gem::Specification.new do |s|
   s.add_dependency 'cancancan', '~> 1.9'
   s.add_dependency 'active_model_serializers', '~> 0.8.0'
   s.add_dependency 'ransack'
+  s.add_dependency 'aasm'
+
+  # TODO: Move this, and the email adapter, out into its own gem?
+  s.add_dependency 'mandrill-rails'
+  s.add_dependency 'mandrill-api'
 
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'rspec-rails'

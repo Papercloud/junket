@@ -15,11 +15,12 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :junket_campaign, class: 'Campaign' do
-    name 'MyString'
-    send_at '2014-08-11 14:39:20'
-    owner_id 1
-    owner_type 'MyString'
-    campaign_template_id 1
+  factory :junket_campaign, class: 'Junket::Campaign' do
+    name 'New Feature'
+    send_email true
+    send_sms true
+    email_subject 'Exciting New Features!'
+    email_body 'Hi, check out our new features!'
+    sms_body 'We have new features!'
   end
 end

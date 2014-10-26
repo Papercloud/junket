@@ -5,6 +5,8 @@ module Junket
     require 'cancancan'
     require 'active_model_serializers'
     require 'responders'
+    require 'aasm'
+    require 'ransack'
 
     config.autoload_paths += %W(#{config.root}/lib)
 

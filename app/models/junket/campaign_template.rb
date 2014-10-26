@@ -16,6 +16,7 @@
 #  created_at    :datetime
 #  updated_at    :datetime
 #  type          :string(255)
+#  state         :string(255)
 #
 
 # Represents the content for a mail-out. Can be used as a 'cookie-cutter' for
@@ -75,7 +76,7 @@ class Junket::CampaignTemplate < ActiveRecord::Base
     base_targets = Junket.targets.call(self)
 
     # Build Ransack query with all filter conditions
-    query = self.filter_conditions.each_with_object({}) do |condition,q|
+    query = filter_conditions.each_with_object({}) do |condition, q|
       q[condition.filter.term] = condition.value
     end
 

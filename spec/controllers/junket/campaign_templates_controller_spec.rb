@@ -1,7 +1,5 @@
 describe Junket::CampaignTemplatesController, type: :controller do
 
-  routes { Junket::Engine.routes }
-
   stub_current_user
 
   def create_private_template(owner_id = 1)
@@ -71,7 +69,7 @@ describe Junket::CampaignTemplatesController, type: :controller do
   describe 'POST /junket/campaign_templates' do
 
     it 'cannot create a template with a disallowed access level' do
-      post :create, campaign_template: attributes_for(:junket_campaign_template, access_level: :public, owner_id: 1, owner_type: 'AdminUser')
+      post :create, campaign_template: attributes_for(:junket_campaign_template, access_level: :public, owner_id: current_user.id, owner_type: 'AdminUser')
       expect(response.response_code).to eq 403
     end
 

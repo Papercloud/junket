@@ -18,6 +18,7 @@
 #  type          :string(255)
 #  state         :string(255)
 #
+require 'liquid'
 
 # Represents the content for a mail-out. Can be used as a 'cookie-cutter' for
 # multiple campaigns (mail-outs), or represent the content of a single customised mail-out.
@@ -54,6 +55,8 @@ class Junket::CampaignTemplate < ActiveRecord::Base
 
   validates :access_level, inclusion: { in: %w(public private) }
 
+  validate :valid_liquid_markup?
+
   ## Scopes
 
   def self.public
@@ -81,5 +84,20 @@ class Junket::CampaignTemplate < ActiveRecord::Base
     end
 
     base_targets.search(query).result(distinct: true)
+  end
+
+  # Templating
+
+  def valid_liquid_markup?
+    # Couldn't get error_mode: :warn in Liquid 3.0.0.rc1 to work, so this exception handling
+    # approach it is.
+
+    [:email_subject, :email_body, :sms_body].each do |template_method|
+      begin
+        Liquid::Template.parse(send(template_method))
+      rescue Liquid::SyntaxError => e
+        errors.add(template_method, e.message)
+      end
+    end
   end
 end

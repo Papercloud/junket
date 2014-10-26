@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.rdoc']
 
   s.add_dependency 'rails', '>= 3.2'
-  s.add_dependency 'liquid', '>= 2.6.1'
+  s.add_dependency 'liquid'
   s.add_dependency 'responders'
   s.add_dependency 'cancancan', '~> 1.9'
   s.add_dependency 'active_model_serializers', '~> 0.8.0'

@@ -59,6 +59,9 @@ class Junket::CampaignTemplate < ActiveRecord::Base
 
   ## Scopes
 
+  # Exclude Campaign STI subclass
+  default_scope where('type IS NULL')
+
   def self.public
     where(access_level: :public)
   end
@@ -73,7 +76,7 @@ class Junket::CampaignTemplate < ActiveRecord::Base
     super new_level.to_s
   end
 
-  # Targeting
+  ## Targeting
 
   def targets
     base_targets = Junket.targets.call(self)
@@ -86,7 +89,7 @@ class Junket::CampaignTemplate < ActiveRecord::Base
     base_targets.search(query).result(distinct: true)
   end
 
-  # Templating
+  ## Templating
 
   def valid_liquid_markup?
     # Couldn't get error_mode: :warn in Liquid 3.0.0.rc1 to work, so this exception handling
@@ -99,5 +102,16 @@ class Junket::CampaignTemplate < ActiveRecord::Base
         errors.add(template_method, e.message)
       end
     end
+  end
+
+  # Run once through Liquid with the sender passed in.
+  # Used to swap out things like logos and the sender's name, so they
+  # can be shown to the sender at the templating stage.
+  # Only applied to access level public templates, as two levels of nested Liquid
+  # would suck for users to edit, and could be customised individually anyway.
+  def prerender(attribute, viewer)
+    return send(attribute) if access_level != 'public'
+
+    Liquid::Template.parse(send(attribute)).render(viewer.class.name.underscore => viewer)
   end
 end

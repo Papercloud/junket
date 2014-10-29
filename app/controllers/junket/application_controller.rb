@@ -4,6 +4,8 @@ class Junket::ApplicationController < ::ApplicationController
   responders :json
   respond_to :json
 
+  serialization_scope :current_junket_user
+
   def current_ability
     @current_ability ||= Junket::Ability.new(current_junket_user)
   end

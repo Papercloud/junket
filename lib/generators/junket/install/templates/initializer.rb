@@ -1,5 +1,11 @@
 Junket.setup do |config|
 
+  # All Junket controllers will inherit from this class
+  config.base_controller = '::ApplicationController'
+
+  # Junket will call this in a before filter to ensure there is a logged in user
+  config.authentication_method = :authenticate_user!
+
   # Junket will call this to find the current logged in user
   config.current_user_method = :current_user
 

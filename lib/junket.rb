@@ -1,8 +1,14 @@
 require 'junket/engine'
 
 module Junket
+  mattr_accessor :authentication_method
+  @mattr_accessor = :authenticate_user!
+
   mattr_accessor :current_user_method
   @current_user_method = :current_user
+
+  mattr_accessor :base_controller
+  @base_controller = '::ApplicationController'
 
   mattr_accessor :targets
   @targets = nil

@@ -35,6 +35,11 @@ class Junket::CampaignTemplatesController < Junket::ApplicationController
     respond_with(@campaign_template)
   end
 
+  def destroy
+    @campaign_template.destroy
+    respond_with(@campaign_template)
+  end
+
   private
 
   def campaign_template_params

@@ -17,6 +17,7 @@
 #  updated_at    :datetime
 #  type          :string(255)
 #  state         :string(255)
+#  send_at       :datetime
 #
 
 RSpec.describe Junket::CampaignTemplate do

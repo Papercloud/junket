@@ -13,7 +13,7 @@ class Junket::Ability
     can :manage, Junket::CampaignTemplate, private_template_conditions
     can [:index, :show, :public], Junket::CampaignTemplate, public_template_conditions
 
-    can :manage, Junket::FilterCondition, campaign_template: private_template_conditions
+    can :manage, Junket::FilterCondition, campaign: private_template_conditions
     can [:index, :show], Junket::FilterCondition, campaign_template: public_template_conditions
 
     can :manage, Junket::Campaign, private_template_conditions

@@ -17,6 +17,7 @@
 #  updated_at    :datetime
 #  type          :string(255)
 #  state         :string(255)
+#  send_at       :datetime
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl

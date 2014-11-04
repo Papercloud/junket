@@ -2,12 +2,13 @@
 #
 # Table name: junket_recipients
 #
-#  id          :integer          not null, primary key
-#  target_id   :integer
-#  target_type :string(255)
-#  campaign_id :integer
-#  created_at  :datetime
-#  updated_at  :datetime
+#  id                   :integer          not null, primary key
+#  target_id            :integer
+#  target_type          :string(255)
+#  campaign_id          :integer
+#  created_at           :datetime
+#  updated_at           :datetime
+#  email_third_party_id :string(255)
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl

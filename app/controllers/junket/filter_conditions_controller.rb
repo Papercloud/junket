@@ -4,7 +4,7 @@ class Junket::FilterConditionsController < Junket::ApplicationController
   load_and_authorize_resource
 
   def index
-    # TODO: This isn't going to return only one campaign's conditions when nested
+    @filter_conditions = @filter_conditions.where('junket_filter_conditions.id IN (?)', params[:ids]) if params[:ids]
     respond_with(@filter_conditions)
   end
 
@@ -30,6 +30,6 @@ class Junket::FilterConditionsController < Junket::ApplicationController
   private
 
   def filter_condition_params
-    params.require(:filter_condition).permit(:id, :value, :filter_id, :campaign_template_id)
+    params.require(:filter_condition).permit(:id, :value, :filter_id, :campaign_id)
   end
 end

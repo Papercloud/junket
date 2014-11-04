@@ -21,11 +21,11 @@ describe Junket::CampaignsController, type: :controller do
 
   end
 
-  describe 'PUT /junket/campaigns/:id/deliver' do
+  describe 'PUT /junket/campaigns/:id/schedule' do
 
     it 'returns success' do
       campaign = create(:junket_campaign, owner_id: current_user.id, owner_type: current_user.class.name)
-      put :deliver, id: campaign.id
+      put :schedule, id: campaign.id
       expect(response.response_code).to eq 200
     end
 

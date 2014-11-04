@@ -25,7 +25,7 @@ class Junket::CampaignTemplatesController < Junket::ApplicationController
 
   # Update a template
   def update
-    @campaign_template.update!(campaign_template_params)
+    @campaign_template.update_attributes(campaign_template_params)
     respond_with(@campaign_template)
   end
 

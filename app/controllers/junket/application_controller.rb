@@ -9,7 +9,7 @@ class Junket::ApplicationController < Junket.base_controller.constantize
   before_filter :authenticate_junket_user
 
   def authenticate_junket_user
-    method(Junket.authentication_method).class
+    method(Junket.authentication_method).class if Junket.authentication_method
   end
 
   def current_ability

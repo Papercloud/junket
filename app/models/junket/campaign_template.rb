@@ -17,7 +17,9 @@
 #  updated_at    :datetime
 #  type          :string(255)
 #  state         :string(255)
+#  send_at       :datetime
 #
+
 require 'liquid'
 
 # Represents the content for a mail-out. Can be used as a 'cookie-cutter' for
@@ -29,7 +31,7 @@ class Junket::CampaignTemplate < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
 
   # Pre-defined filters for this campaign for the user's convenience.
-  has_many :filter_conditions, dependent: :destroy
+  has_many :filter_conditions, dependent: :destroy, foreign_key: :campaign_id
 
   # Uses of this template. Don't allow deletion of the template if it's used on a
   # campaign, as the template holds the campaign's copy.
@@ -60,15 +62,7 @@ class Junket::CampaignTemplate < ActiveRecord::Base
   ## Scopes
 
   # Exclude Campaign STI subclass
-  default_scope where('type IS NULL')
-
-  def self.public
-    where(access_level: :public)
-  end
-
-  def self.private
-    where(access_level: :private)
-  end
+  default_scope { where('type IS NULL') }
 
   # Customer setter for access_level to ensure it's a string, to prevent
   # unintentionally tripping its inclusion validation.

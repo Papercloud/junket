@@ -8,29 +8,26 @@ Junket::Engine.routes.draw do
 
     # Templates the user can only read
     get :public, on: :collection
-
-    # TODO: Do we really need this nested version?
-    # resources :filter_conditions
   end
 
+  # Properties that campaigns can be targeted by, e.g. 'Phone Number Equals'
   resources :filters, only: [:index]
 
-  resources :filter_conditions
-
-  # Targets for a given campaign.
-  get '/targets' => 'targets#index'
-  get '/targets/count' => 'targets#count'
+  # Filters with values for a specific campaign
+  resources :filter_conditions, only: [:index, :show, :create, :update, :destroy]
 
   # Campaigns
   # TODO: Include read/opened/reaches stats.
   resources :campaigns do
 
-    # Send everything and transition to state 'sent'
-    put :deliver, on: :member
+    # Schedule in delivery, or deliver immediately.
+    put :schedule, on: :member
+
+    get :targets_count, on: :member
   end
 
   # Recipients of a sent campaign. Includes read status and tracking.
-  resources :recipients
+  # resources :recipients
 
   resource :webhooks, controller: 'webhooks', only: [:create, :show]
 

@@ -21,8 +21,10 @@ require 'liquid'
 
 # Represents the content for a mail-out. Can be used as a 'cookie-cutter' for
 # multiple campaigns (mail-outs), or represent the content of a single customised mail-out.
+# Now has to belong to a sequence template
 class Junket::CampaignTemplate < ActiveRecord::Base
   ## Associations
+  has_many :sequence_action_times, dependent: :destroy
 
   # Used with 'access_level' for access control. See Junket::Ability.
   belongs_to :owner, polymorphic: true
@@ -52,20 +54,12 @@ class Junket::CampaignTemplate < ActiveRecord::Base
   validates :send_sms, acceptance: { accept: true }, unless: :send_email?
   validates :send_email, acceptance: { accept: true }, unless: :send_sms?
 
-  validates :access_level, inclusion: { in: %w(public private) }
-
   validate :valid_liquid_markup?
 
   ## Scopes
 
   # Exclude Campaign STI subclass
   default_scope { where('type IS NULL') }
-
-  # Customer setter for access_level to ensure it's a string, to prevent
-  # unintentionally tripping its inclusion validation.
-  def access_level=(new_level)
-    super new_level.to_s
-  end
 
   ## Targeting
 

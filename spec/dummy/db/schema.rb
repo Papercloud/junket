@@ -14,14 +14,14 @@
 ActiveRecord::Schema.define(version: 20_150_224_032_103) do
 
   create_table 'junket_actions', force: true do |t|
-    t.integer 'junket_sequence_id',          null: false
-    t.integer 'junket_campaign_template_id', null: false
-    t.string 'state',                       null: false
+    t.integer 'sequence_id',          null: false
+    t.integer 'campaign_template_id', null: false
+    t.string 'state',                null: false
     t.datetime 'created_at'
     t.datetime 'updated_at'
   end
 
-  add_index 'junket_actions', ['junket_sequence_id'], name: 'index_junket_actions_on_junket_sequence_id'
+  add_index 'junket_actions', ['sequence_id'], name: 'index_junket_actions_on_sequence_id'
 
   create_table 'junket_campaign_templates', force: true do |t|
     t.string 'name'
@@ -71,16 +71,16 @@ ActiveRecord::Schema.define(version: 20_150_224_032_103) do
   add_index 'junket_recipients', %w(target_id target_type), name: 'index_junket_recipients_on_target_id_and_target_type'
 
   create_table 'junket_sequence_action_times', force: true do |t|
-    t.integer 'duration',                                  null: false
-    t.integer 'position',                      default: 0, null: false
-    t.integer 'junket_sequence_template_id',               null: false
-    t.integer 'junket_campaign_template_id',               null: false
-    t.string 'junket_campaign_template_type',             null: false
+    t.integer 'duration',                           null: false
+    t.integer 'position',               default: 0, null: false
+    t.integer 'sequence_template_id',               null: false
+    t.integer 'campaign_template_id',               null: false
+    t.string 'campaign_template_type',             null: false
     t.datetime 'created_at'
     t.datetime 'updated_at'
   end
 
-  add_index 'junket_sequence_action_times', %w(junket_sequence_template_id position), name: 'index_seq_action_seq_template_id_position', unique: true
+  add_index 'junket_sequence_action_times', %w(sequence_template_id position), name: 'index_seq_action_seq_template_id_position', unique: true
 
   create_table 'junket_sequence_templates', force: true do |t|
     t.string 'name',                             null: false
@@ -94,15 +94,15 @@ ActiveRecord::Schema.define(version: 20_150_224_032_103) do
   add_index 'junket_sequence_templates', %w(owner_id owner_type), name: 'index_junket_sequence_templates_on_owner_id_and_owner_type'
 
   create_table 'junket_sequences', force: true do |t|
-    t.integer 'object_id',                   null: false
-    t.string 'object_type',                 null: false
-    t.integer 'junket_sequence_template_id', null: false
+    t.integer 'object_id',            null: false
+    t.string 'object_type',          null: false
+    t.integer 'sequence_template_id', null: false
     t.datetime 'created_at'
     t.datetime 'updated_at'
   end
 
-  add_index 'junket_sequences', ['junket_sequence_template_id'], name: 'index_junket_sequences_on_junket_sequence_template_id'
   add_index 'junket_sequences', %w(object_id object_type), name: 'index_junket_sequences_on_object_id_and_object_type'
+  add_index 'junket_sequences', ['sequence_template_id'], name: 'index_junket_sequences_on_sequence_template_id'
 
   create_table 'users', force: true do |t|
     t.string 'email'

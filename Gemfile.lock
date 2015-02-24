@@ -9,6 +9,7 @@ PATH
       liquid
       mandrill-api
       mandrill-rails
+      pry
       rails (>= 3.2)
       ransack
       responders
@@ -211,6 +212,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_list
   database_cleaner
   factory_girl_rails
   guard-rspec
@@ -220,7 +222,6 @@ DEPENDENCIES
   rspec_api_documentation
   rubocop
   shoulda
-  sidekiq
   sqlite3
   terminal-notifier-guard
   thor (= 0.19.1)

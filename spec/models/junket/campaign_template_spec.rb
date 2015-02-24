@@ -32,13 +32,13 @@ RSpec.describe Junket::CampaignTemplate do
     it 'adds a validation error for invalid email subject Liquid syntax' do
       subject.email_subject = 'Hi {{ name }'
       subject.valid?
-      expect(subject.errors[:email_subject]).to eq ["Variable '{{ name }' was not properly terminated with regexp: /\\}\\}/ "]
+      expect(subject.errors[:email_subject]).to eq ["Liquid syntax error: Variable '{{ name }' was not properly terminated with regexp: /\\}\\}/"]
     end
 
     it 'adds a validation error for invalid email body Liquid syntax' do
       subject.email_body = 'Hi {{ name }'
       subject.valid?
-      expect(subject.errors[:email_body]).to eq ["Variable '{{ name }' was not properly terminated with regexp: /\\}\\}/ "]
+      expect(subject.errors[:email_body]).to eq ["Liquid syntax error: Variable '{{ name }' was not properly terminated with regexp: /\\}\\}/"]
     end
   end
 
@@ -52,7 +52,7 @@ RSpec.describe Junket::CampaignTemplate do
     it 'adds a validation error for invalid sms body Liquid syntax' do
       subject.sms_body = 'Hi {{ name }'
       subject.valid?
-      expect(subject.errors[:sms_body]).to eq ["Variable '{{ name }' was not properly terminated with regexp: /\\}\\}/ "]
+      expect(subject.errors[:sms_body]).to eq ["Liquid syntax error: Variable '{{ name }' was not properly terminated with regexp: /\\}\\}/"]
     end
   end
 

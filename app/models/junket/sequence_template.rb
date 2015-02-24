@@ -21,4 +21,11 @@ class Junket::SequenceTemplate < ActiveRecord::Base
   has_many :sequence_action_times, dependent: :destroy
 
   validates :name, presence: true
+
+  # Customer setter for access_level to ensure it's a string, to prevent
+  # unintentionally tripping its inclusion validation.
+  def access_level=(new_level)
+    super new_level.to_s
+  end
+  validates :access_level, inclusion: { in: %w(public private) }
 end

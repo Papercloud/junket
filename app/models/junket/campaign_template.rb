@@ -8,8 +8,8 @@
 #  email_subject :string(255)
 #  email_body    :text
 #  sms_body      :text
-#  send_email    :boolean          default(TRUE)
-#  send_sms      :boolean          default(TRUE)
+#  send_email    :boolean          default(TRUE), not null
+#  send_sms      :boolean          default(TRUE), not null
 #  access_level  :string(255)      default("private")
 #  owner_id      :integer
 #  owner_type    :string(255)

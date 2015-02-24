@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(version: 20141031060625) do
     t.string   "email_subject"
     t.text     "email_body"
     t.text     "sms_body"
-    t.boolean  "send_email",    default: true
-    t.boolean  "send_sms",      default: true
+    t.boolean  "send_email",    default: true,      null: false
+    t.boolean  "send_sms",      default: true,      null: false
     t.string   "access_level",  default: "private"
     t.integer  "owner_id"
     t.string   "owner_type"

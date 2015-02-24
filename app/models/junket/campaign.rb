@@ -10,9 +10,6 @@
 #  sms_body      :text
 #  send_email    :boolean          default(TRUE), not null
 #  send_sms      :boolean          default(TRUE), not null
-#  access_level  :string(255)      default("private")
-#  owner_id      :integer
-#  owner_type    :string(255)
 #  created_at    :datetime
 #  updated_at    :datetime
 #  type          :string(255)

@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'aasm'
   # KG: I'm pretty sure this is what we are expecting to add our .delay methods?
   s.add_dependency 'sidekiq'
+  s.add_dependency 'acts_as_list'
 
   # TODO: Move this, and the email adapter, out into its own gem?
   s.add_dependency 'mandrill-rails'

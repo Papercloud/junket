@@ -18,8 +18,13 @@ RSpec.describe Junket::SequenceTemplate do
 
     it 'works' do
       expect(subject).to be_persisted
-      expect(subject.sequence_action_times.count).to eq(2)
+      expect(subject.sequence_action_times.empty?).to eq(false)
       expect(subject.sequence_action_times.first.campaign_template).to_not eq(nil)
+    end
+
+    it 'can create a sequence' do
+      seq = create(:junket_sequence)
+      expect(seq.actions.empty?).to eq(false)
     end
   end
 end

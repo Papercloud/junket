@@ -54,5 +54,11 @@ FactoryGirl.define do
   factory :junket_sequence, class: 'Junket::Sequence' do
     object { User.create(email: 'a@a.com') }
     association :sequence_template, factory: :junket_sequence_template
+
+    after(:create) do |seq, _evaluator|
+      2.times do
+        FactoryGirl.create(:junket_action, sequence: seq)
+      end
+    end
   end
 end

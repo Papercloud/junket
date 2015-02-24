@@ -23,6 +23,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'active_model_serializers', '~> 0.8.0'
   s.add_dependency 'ransack'
   s.add_dependency 'aasm'
+  # KG: I'm pretty sure this is what we are expecting to add our .delay methods?
+  s.add_dependency 'sidekiq'
 
   # TODO: Move this, and the email adapter, out into its own gem?
   s.add_dependency 'mandrill-rails'

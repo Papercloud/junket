@@ -1,13 +1,17 @@
 Junket::Engine.routes.draw do
 
   # Templates for campaigns. Email subject, email body with placeholders, SMS body.
-  resources :campaign_templates do
+  resources :sequence_templates do
 
     # Templates the user can edit
     get :mine, on: :collection
 
     # Templates the user can only read
     get :public, on: :collection
+
+    resources :campaign_templates, only: [:index, :show, :create, :update, :destroy] do
+
+    end
   end
 
   # Properties that campaigns can be targeted by, e.g. 'Phone Number Equals'

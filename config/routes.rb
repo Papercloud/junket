@@ -16,9 +16,9 @@ Junket::Engine.routes.draw do
   # Filters with values for a specific campaign
   resources :filter_conditions, only: [:index, :show, :create, :update, :destroy]
 
-  # Campaigns
+  # Sequences
   # TODO: Include read/opened/reaches stats.
-  resources :campaigns do
+  resources :sequences do
 
     # Schedule in delivery, or deliver immediately.
     put :schedule, on: :member

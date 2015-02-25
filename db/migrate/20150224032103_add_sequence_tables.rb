@@ -26,6 +26,7 @@ class AddSequenceTables < ActiveRecord::Migration
       # will be a recall in hotdocs case
       t.references :object, null: false, polymorphic: true, index: true
       t.belongs_to :sequence_template, null: false, index: true
+      t.references :owner, polymorphic: true, index: true
       t.timestamps
     end
 

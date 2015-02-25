@@ -6,6 +6,8 @@
 #  object_id            :integer          not null
 #  object_type          :string(255)      not null
 #  sequence_template_id :integer          not null
+#  owner_id             :integer
+#  owner_type           :string(255)
 #  created_at           :datetime
 #  updated_at           :datetime
 #
@@ -53,6 +55,8 @@ FactoryGirl.define do
 
   factory :junket_sequence, class: 'Junket::Sequence' do
     object { User.create(email: 'a@a.com') }
+    owner { User.create(email: 'a@a.com') }
+
     association :sequence_template, factory: :junket_sequence_template
 
     after(:create) do |seq, _evaluator|

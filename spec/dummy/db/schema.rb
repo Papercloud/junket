@@ -97,11 +97,14 @@ ActiveRecord::Schema.define(version: 20_150_224_032_103) do
     t.integer 'object_id',            null: false
     t.string 'object_type',          null: false
     t.integer 'sequence_template_id', null: false
+    t.integer 'owner_id'
+    t.string 'owner_type'
     t.datetime 'created_at'
     t.datetime 'updated_at'
   end
 
   add_index 'junket_sequences', %w(object_id object_type), name: 'index_junket_sequences_on_object_id_and_object_type'
+  add_index 'junket_sequences', %w(owner_id owner_type), name: 'index_junket_sequences_on_owner_id_and_owner_type'
   add_index 'junket_sequences', ['sequence_template_id'], name: 'index_junket_sequences_on_sequence_template_id'
 
   create_table 'users', force: true do |t|

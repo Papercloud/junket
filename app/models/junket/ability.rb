@@ -18,6 +18,6 @@ class Junket::Ability
     can :manage, Junket::Sequence, private_template_conditions
     can :manage, Junket::SequenceTemplate, private_template_conditions
     # can still see the public templates
-    can [:index, :show, :public], Junket::CampaignTemplate, public_template_conditions
+    can [:index, :show, :public], Junket::SequenceTemplate, public_template_conditions
   end
 end

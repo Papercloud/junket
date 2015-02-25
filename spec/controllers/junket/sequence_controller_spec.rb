@@ -10,6 +10,10 @@ describe Junket::SequencesController, type: :controller do
     create(:junket_sequence, sequence_template: sequence_template, owner_id: current_user.id, owner_type: 'OpenStruct')
   end
 
+  let(:not_my_sequence) do
+    create(:junket_sequence, sequence_template: sequence_template, owner_id: 1, owner_type: 'SomeClassThatIsntAUser')
+  end
+
   let(:object) do
     User.create(email: 'kg@a.com')
   end
@@ -17,11 +21,11 @@ describe Junket::SequencesController, type: :controller do
   describe 'GET /junket/sequences' do
     it 'shows only my sequences' do
       sequence
-
-      not_my_sequence = create(:junket_sequence, sequence_template: sequence_template, owner_id: 1, owner_type: 'SomeClassThatIsntAUser')
+      not_my_sequence
       another_sequence_i_own = create(:junket_sequence, sequence_template: sequence_template, owner_id: current_user.id, owner_type: 'OpenStruct')
 
       get :index
+      expect(response.response_code).to eq 200
       response_ids = parse_json(response.body)['sequences'].map { |seq| seq['id'] }
       expect(response_ids).to include(sequence.id)
       expect(response_ids).to include(another_sequence_i_own.id)
@@ -32,7 +36,13 @@ describe Junket::SequencesController, type: :controller do
   describe 'GET /junket/sequence/:id' do
     it 'shows my sequence' do
       get :show, id: sequence.id
+      expect(response.response_code).to eq 200
       expect(response.body).to have_json_path('sequence/id')
+    end
+
+    it 'doesnt show other peoples sequences' do
+      get :show, id: not_my_sequence.id
+      expect(response.response_code).to eq 403
     end
   end
 
@@ -50,7 +60,6 @@ describe Junket::SequencesController, type: :controller do
   describe 'PUT /junket/campaigns/:id/schedule' do
 
     it 'returns success' do
-      sequence = create(:junket_sequence)
       put :schedule, id: sequence.id
       expect(response.response_code).to eq 200
     end

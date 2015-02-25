@@ -14,13 +14,14 @@ class AddSequenceTables < ActiveRecord::Migration
     # add_column :junket_campaign_templates, :junket_sequence_template_id, :integer, null: false, index: true
 
     create_table :junket_sequence_action_times do |t|
-      t.integer :duration, null: false
+      t.integer :duration_since_previous, null: false
       t.integer :position, null: false, default: 0
       t.belongs_to :sequence_template, null: false
       t.references :campaign_template, null: false, polymorphic: true
       t.timestamps
     end
-    add_index :junket_sequence_action_times, [:sequence_template_id, :position], unique: true, name: 'index_seq_action_seq_template_id_position'
+    add_index :junket_sequence_action_times, :position, unique: true
+    add_index :junket_sequence_action_times, [:sequence_template_id, :position], unique: true, name: 'my_ordered_index'
 
     create_table :junket_sequences do |t|
       # will be a recall in hotdocs case
@@ -34,6 +35,7 @@ class AddSequenceTables < ActiveRecord::Migration
       t.belongs_to :sequence, null: false, index: true
       t.belongs_to :campaign_template, null: false
       t.string :state, null: false
+      t.datetime :send_at, null: false
       t.timestamps
     end
   end

@@ -28,4 +28,17 @@ class Junket::Sequence < ActiveRecord::Base
   # protected
   # def ower_can_manager_sequence_template
   # end
+
+  def self.trigger_action(action_id)
+    Junket::Action.find(action_id).deliver
+  end
+
+  def schedule!
+    # sequence_template.sequence_action_times
+    #
+    # .each do |sequence_action_time|
+    #   new_action = actions.create(campaign_template: sequence_action_time.campaign_template, state: 'scheduled')
+    #     self.delay_for(sequence_action_time.duration).trigger_action(new_action.id)
+    # end
+  end
 end

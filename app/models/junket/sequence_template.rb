@@ -28,4 +28,8 @@ class Junket::SequenceTemplate < ActiveRecord::Base
     super new_level.to_s
   end
   validates :access_level, inclusion: { in: %w(public private) }
+
+  def sequence_action_times
+    super.order('position')
+  end
 end

@@ -21,10 +21,5 @@ RSpec.describe Junket::SequenceTemplate do
       expect(subject.sequence_action_times.empty?).to eq(false)
       expect(subject.sequence_action_times.first.campaign_template).to_not eq(nil)
     end
-
-    it 'can create a sequence' do
-      seq = create(:junket_sequence)
-      expect(seq.actions.empty?).to eq(false)
-    end
   end
 end

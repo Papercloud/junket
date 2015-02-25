@@ -6,6 +6,7 @@
 #  sequence_id          :integer          not null
 #  campaign_template_id :integer          not null
 #  state                :string(255)      not null
+#  send_at              :datetime         not null
 #  created_at           :datetime
 #  updated_at           :datetime
 #

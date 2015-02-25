@@ -18,7 +18,7 @@ Junket::Engine.routes.draw do
 
   # Sequences
   # TODO: Include read/opened/reaches stats.
-  resources :sequences do
+  resources :sequences, except: [:update, :destroy] do
 
     # Schedule in delivery, or deliver immediately.
     put :schedule, on: :member

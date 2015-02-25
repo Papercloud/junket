@@ -40,14 +40,14 @@ FactoryGirl.define do
   end
 
   factory :junket_action, class: 'Junket::Action' do
+    send_at 10.minutes.from_now
     association :sequence, factory: :junket_sequence
     association :campaign_template, factory: :junket_campaign_template
     state 'scheduled'
   end
 
   factory :junket_sequence_action_time, class: 'Junket::SequenceActionTime' do
-    sequence(:duration) { |n| n.minutes }
-    sequence(:position) { |n| n }
+    duration_since_previous 10.minutes
     association :sequence_template, factory: :junket_sequence_template
     association :campaign_template, factory: :junket_campaign_template
     campaign_template_type 'RecallSmsActionTemplate'
@@ -59,10 +59,10 @@ FactoryGirl.define do
 
     association :sequence_template, factory: :junket_sequence_template
 
-    after(:create) do |seq, _evaluator|
-      2.times do
-        FactoryGirl.create(:junket_action, sequence: seq)
-      end
-    end
+    # after(:create) do |seq, _evaluator|
+    #   2.times do
+    #     FactoryGirl.create(:junket_action, sequence: seq)
+    #   end
+    # end
   end
 end

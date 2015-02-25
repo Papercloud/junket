@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20_150_224_032_103) do
     t.integer 'sequence_id',          null: false
     t.integer 'campaign_template_id', null: false
     t.string 'state',                null: false
+    t.datetime 'send_at',              null: false
     t.datetime 'created_at'
     t.datetime 'updated_at'
   end
@@ -71,16 +72,17 @@ ActiveRecord::Schema.define(version: 20_150_224_032_103) do
   add_index 'junket_recipients', %w(target_id target_type), name: 'index_junket_recipients_on_target_id_and_target_type'
 
   create_table 'junket_sequence_action_times', force: true do |t|
-    t.integer 'duration',                           null: false
-    t.integer 'position',               default: 0, null: false
-    t.integer 'sequence_template_id',               null: false
-    t.integer 'campaign_template_id',               null: false
-    t.string 'campaign_template_type',             null: false
+    t.integer 'duration_since_previous',             null: false
+    t.integer 'position',                default: 0, null: false
+    t.integer 'sequence_template_id',                null: false
+    t.integer 'campaign_template_id',                null: false
+    t.string 'campaign_template_type',              null: false
     t.datetime 'created_at'
     t.datetime 'updated_at'
   end
 
-  add_index 'junket_sequence_action_times', %w(sequence_template_id position), name: 'index_seq_action_seq_template_id_position', unique: true
+  add_index 'junket_sequence_action_times', ['position'], name: 'index_junket_sequence_action_times_on_position', unique: true
+  add_index 'junket_sequence_action_times', %w(sequence_template_id position), name: 'my_ordered_index', unique: true
 
   create_table 'junket_sequence_templates', force: true do |t|
     t.string 'name',                             null: false

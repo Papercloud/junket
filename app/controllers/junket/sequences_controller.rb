@@ -15,8 +15,11 @@ class Junket::SequencesController < Junket::ApplicationController
 
   # Create a campaign
   def create
-    @sequence.save
-    respond_with(sequence: @sequence)
+    if @sequence.save
+      respond_with(sequence: @sequence)
+    else
+      respond_with(@sequence.errors, status: :unprocessable_entity)
+    end
   end
 
   # GET /campaigns/1/targets_count

@@ -24,6 +24,7 @@ RSpec.describe Junket::SequenceTemplate do
       expect(subject.actions.count).to eq(2)
       expect(subject.actions.map(&:send_at)).to_not include(nil)
       expect(subject.actions.map(&:campaign_template_id)).to eq(campaign_template_ids), 'actions use same campaign templates'
+      expect(subject.actions.map(&:send_at)).to_not include(nil)
     end
 
   end

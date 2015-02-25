@@ -20,10 +20,7 @@ Junket::Engine.routes.draw do
   # TODO: Include read/opened/reaches stats.
   resources :sequences, except: [:update, :destroy] do
 
-    # Schedule in delivery, or deliver immediately.
-    put :schedule, on: :member
-
-    get :targets_count, on: :member
+    # get :targets_count, on: :member
   end
 
   # Recipients of a sent campaign. Includes read status and tracking.

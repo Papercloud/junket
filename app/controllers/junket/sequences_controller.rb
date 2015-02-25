@@ -19,13 +19,6 @@ class Junket::SequencesController < Junket::ApplicationController
     respond_with(sequence: @sequence)
   end
 
-  # Deliver a campaign
-  # PUT /campaigns/1/schedule
-  def schedule
-    @sequence.schedule!
-    respond_with(sequence: @sequence)
-  end
-
   # GET /campaigns/1/targets_count
   def targets_count
     respond_with(@sequence.targets_count)
@@ -34,9 +27,6 @@ class Junket::SequencesController < Junket::ApplicationController
   private
 
   def sequence_params
-    p = params.require(:sequence).permit(:id, :object_id, :object_type, :sequence_template_id)
-    p['owner_id'] = current_user.id
-    p['owner_type'] = current_user.class.to_s
-    p
+    params.require(:sequence).permit(:id, :object_id, :object_type, :sequence_template_id).merge('owner_id' => current_user.id, 'owner_type' => current_user.class.to_s)
   end
 end

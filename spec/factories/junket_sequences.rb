@@ -16,8 +16,8 @@ FactoryGirl.define do
   factory :junket_sequence_template, class: 'Junket::SequenceTemplate' do
     sequence(:name) { |n| "S Template #{n}" }
     access_level 'private'
-    # association :owner, factory: :clinic
-    # owner_type 'Clinic'
+    owner_id 1
+    owner_type 'OpenStruct'
 
     after(:create) do |t, _evaluator|
       # create two action templates.
@@ -56,13 +56,6 @@ FactoryGirl.define do
   factory :junket_sequence, class: 'Junket::Sequence' do
     object { User.create(email: 'a@a.com') }
     owner { User.create(email: 'a@a.com') }
-
     association :sequence_template, factory: :junket_sequence_template
-
-    # after(:create) do |seq, _evaluator|
-    #   2.times do
-    #     FactoryGirl.create(:junket_action, sequence: seq)
-    #   end
-    # end
   end
 end

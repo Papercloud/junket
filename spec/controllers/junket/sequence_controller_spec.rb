@@ -47,21 +47,30 @@ describe Junket::SequencesController, type: :controller do
   end
 
   describe 'POST /junket/sequence' do
+    it 'cant create a sequence with a sequence_template_id that isnt mine and isnt public' do
+      template_id = create(:junket_sequence_template, owner_id: 1, owner_type: 'NotMyClass').id
+      post :create, sequence: { sequence_template_id: template_id, object_id: object.id, object_type: 'User' }
+      expect(response.response_code).to eq 422
+    end
+
+    it 'can create a sequence with a sequence_template_id that is public' do
+      template_id = create(:junket_sequence_template, access_level: 'public').id
+
+      post :create, sequence: { sequence_template_id: template_id, object_id: object.id, object_type: 'User' }
+      expect(response.response_code).to eq 201
+    end
+
+    it '422 without object' do
+      post :create, sequence: { sequence_template_id: sequence_template.id }
+      expect(response.response_code).to eq 422
+    end
+
     it 'creates a sequence' do
       post :create, sequence: { sequence_template_id: sequence_template.id, object_id: object.id, object_type: 'User' }
 
       expect(response.response_code).to eq 201
       expect(response.body).to have_json_path('sequence/id')
       expect(Junket::Sequence.first.object_id).to eq object.id
-    end
-
-  end
-
-  describe 'PUT /junket/campaigns/:id/schedule' do
-
-    it 'returns success' do
-      put :schedule, id: sequence.id
-      expect(response.response_code).to eq 200
     end
 
   end

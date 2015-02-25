@@ -17,8 +17,15 @@ describe Junket::SequencesController, type: :controller do
   describe 'GET /junket/sequences' do
     it 'shows only my sequences' do
       sequence
+
+      not_my_sequence = create(:junket_sequence, sequence_template: sequence_template, owner_id: 1, owner_type: 'SomeClassThatIsntAUser')
+      another_sequence_i_own = create(:junket_sequence, sequence_template: sequence_template, owner_id: current_user.id, owner_type: 'OpenStruct')
+
       get :index
-      expect(parse_json(response.body)[:sequences]).to include(sequence)
+      response_ids = parse_json(response.body)['sequences'].map { |seq| seq['id'] }
+      expect(response_ids).to include(sequence.id)
+      expect(response_ids).to include(another_sequence_i_own.id)
+      expect(response_ids).to_not include(not_my_sequence.id)
     end
   end
 

@@ -30,6 +30,6 @@ class Junket::SequencesController < Junket::ApplicationController
   private
 
   def sequence_params
-    params.require(:sequence).permit(:id, :object_id, :object_type, :sequence_template_id).merge('owner_id' => current_user.id, 'owner_type' => current_user.class.to_s)
+    params.require(:sequence).permit(:id, :object_id, :object_type, :sequence_template_id).merge('owner_id' => current_junket_user.id, 'owner_type' => current_junket_user.class.to_s)
   end
 end

@@ -15,7 +15,7 @@
 FactoryGirl.define do
 
   factory :junket_action, class: 'Junket::Action' do
-    send_at 10.minutes.from_now
+    run_datetime 10.minutes.from_now
     association :sequence, factory: :junket_sequence
     association :action_template, factory: :junket_action_template
     state 'scheduled'

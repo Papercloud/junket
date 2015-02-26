@@ -20,8 +20,8 @@ RSpec.describe Junket::SequenceTemplate do
       structure = OpenStruct.new(id: 'piss', name: 'shit', email: 'porridge')
       subject.action_templates.first.create_action_for(structure)
 
-      # has send_at
-      expect(Action.first.send_at).to_not eq(nil)
+      # has run_datetime
+      expect(Action.first.run_datetime).to_not eq(nil)
       # same seq temp
       expect(Action.first.sequence_template).to eq(subject)
       # has set the object

@@ -18,7 +18,7 @@
 
 FactoryGirl.define do
 
-  factory :junket_action_template, class: 'Junket::ActionTemplate' do
+  factory :junket_action_template, class: 'TestActionTemplateSubclass' do
     sequence(:name) { |n| "A Template #{n}" }
     run_after_duration 10.minutes
     position 0

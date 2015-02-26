@@ -22,9 +22,12 @@ ActiveRecord::Schema.define(version: 20150224032103) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "type"
-    t.integer  "run_after_duration", default: 0, null: false
-    t.integer  "position",           default: 0, null: false
+    t.integer  "run_after_duration",   default: 0, null: false
+    t.integer  "position",             default: 0, null: false
+    t.integer  "sequence_template_id"
   end
+
+  add_index "junket_action_templates", ["sequence_template_id"], name: "index_junket_action_templates_on_sequence_template_id"
 
   create_table "junket_actions", force: true do |t|
     t.integer  "action_template_id", null: false

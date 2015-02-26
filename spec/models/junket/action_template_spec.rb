@@ -17,8 +17,14 @@
 #
 
 RSpec.describe Junket::ActionTemplate do
-  it { should validate_presence_of :name }
-  it { should_not validate_presence_of :campaign_name }
+
+  describe 'validations' do
+    subject do
+      build(:junket_action_template)
+    end
+    it { should validate_presence_of :name }
+    it { should_not validate_presence_of :campaign_name }
+  end
 
   describe 'when set to send email' do
     subject do
@@ -64,18 +70,24 @@ RSpec.describe Junket::ActionTemplate do
     it { should validate_acceptance_of :send_email }
   end
 
-  it 'create first action on recall' do
-    structure = OpenStruct.new(id: '5', name: 'Blah', email: 'porridge@hotdoc.com')
-    subject.create_action_for(structure)
+  describe 'created action_template' do
+    subject do
+      create(:junket_action_template)
+    end
 
-    # has send_at
-    expect(Action.first.send_at).to_not eq(nil)
-    # same seq temp
-    expect(Action.first.sequence_template).to eq(subject)
-    # has set the object
-    expect(Action.first.object.id).to eq('5')
-    # subclass tells you if its an email
-    expect(Action.first.send_email?).to eq(true)
+    it 'will make a recall template' do
+      structure = OpenStruct.new(id: '5', name: 'Blah', email: 'porridge@hotdoc.com')
+      subject.create_action_for(structure)
+
+      # has send_at
+      expect(Action.first.send_at).to_not eq(nil)
+      # same seq temp
+      expect(Action.first.sequence_template).to eq(subject)
+      # has set the object
+      expect(Action.first.object.id).to eq('5')
+      # subclass tells you if its an email
+      expect(Action.first.send_email?).to eq(true)
+    end
   end
 
 end

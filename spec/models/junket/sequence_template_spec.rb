@@ -12,6 +12,7 @@
 #
 RSpec.describe Junket::SequenceTemplate do
   describe 'standard' do
+
     subject do
       create(:junket_sequence_template)
     end

@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141031060625) do
+ActiveRecord::Schema.define(version: 20150224032103) do
 
-  create_table "junket_campaign_templates", force: true do |t|
+  create_table "junket_action_templates", force: true do |t|
     t.string   "name"
     t.string   "campaign_name"
     t.string   "email_subject"
@@ -22,18 +22,25 @@ ActiveRecord::Schema.define(version: 20141031060625) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "type"
+    t.integer  "run_after_duration",   default: 0, null: false
+    t.integer  "position",             default: 0, null: false
     t.integer  "sequence_template_id"
-    t.string   "access_level",         default: "private"
-    t.datetime "send_at"
-    t.boolean  "send_email",           default: true,      null: false
-    t.boolean  "send_sms",             default: true,      null: false
-    t.string   "state"
-    t.integer  "owner_id"
-    t.string   "owner_type"
   end
 
-  add_index "junket_campaign_templates", ["owner_id", "owner_type"], name: "index_junket_campaign_templates_on_owner_id_and_owner_type"
-  add_index "junket_campaign_templates", ["sequence_template_id"], name: "index_junket_campaign_templates_on_sequence_template_id"
+  add_index "junket_action_templates", ["sequence_template_id"], name: "index_junket_action_templates_on_sequence_template_id"
+
+  create_table "junket_actions", force: true do |t|
+    t.integer  "action_template_id", null: false
+    t.integer  "object_id",          null: false
+    t.string   "object_type",        null: false
+    t.string   "state",              null: false
+    t.datetime "run_datetime",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "junket_actions", ["action_template_id"], name: "index_junket_actions_on_action_template_id"
+  add_index "junket_actions", ["object_id", "object_type"], name: "index_junket_actions_on_object_id_and_object_type"
 
   create_table "junket_filter_conditions", force: true do |t|
     t.integer  "filter_id"
@@ -66,6 +73,17 @@ ActiveRecord::Schema.define(version: 20141031060625) do
   add_index "junket_recipients", ["campaign_id"], name: "index_junket_recipients_on_campaign_id"
   add_index "junket_recipients", ["email_third_party_id"], name: "index_junket_recipients_on_email_third_party_id"
   add_index "junket_recipients", ["target_id", "target_type"], name: "index_junket_recipients_on_target_id_and_target_type"
+
+  create_table "junket_sequence_templates", force: true do |t|
+    t.string   "name",                             null: false
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "access_level", default: "private", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "junket_sequence_templates", ["owner_id", "owner_type"], name: "index_junket_sequence_templates_on_owner_id_and_owner_type"
 
   create_table "users", force: true do |t|
     t.string   "email"

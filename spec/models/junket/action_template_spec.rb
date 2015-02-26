@@ -17,8 +17,8 @@
 #
 
 RSpec.describe Junket::ActionTemplate do
-  it { should validate_presence_of :name }
-  it { should_not validate_presence_of :campaign_name }
+
+
 
   describe 'when set to send email' do
     subject do
@@ -27,6 +27,7 @@ RSpec.describe Junket::ActionTemplate do
 
     it { should validate_presence_of :email_subject }
     it { should validate_presence_of :email_body }
+    it { should validate_presence_of :name }
 
     it 'adds a validation error for invalid email subject Liquid syntax' do
       subject.email_subject = 'Hi {{ name }'
@@ -47,6 +48,7 @@ RSpec.describe Junket::ActionTemplate do
     end
 
     it { should validate_presence_of :sms_body }
+    it { should validate_presence_of :name }
 
     it 'adds a validation error for invalid sms body Liquid syntax' do
       subject.sms_body = 'Hi {{ name }'
@@ -61,7 +63,8 @@ RSpec.describe Junket::ActionTemplate do
     end
 
     it { should validate_acceptance_of :send_sms }
-    it { should validate_acceptance_of :send_email }
+    it { should validate_acceptance_of :send_email}
+    it { should validate_presence_of :name }
   end
 
   it 'create first action on recall' do

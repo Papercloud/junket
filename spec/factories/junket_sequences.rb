@@ -22,40 +22,35 @@ FactoryGirl.define do
     after(:create) do |t, _evaluator|
       # create two action templates.
       2.times do |n|
-        FactoryGirl.create(:junket_sequence_action_time, campaign_template: FactoryGirl.create(:junket_campaign_template), sequence_template: t, position: n)
+        FactoryGirl.create(:junket_action_template, sequence_template: t, position: n)
       end
     end
   end
 
-  factory :junket_campaign_template, class: 'Junket::CampaignTemplate' do
+  factory :junket_action_template, class: 'Junket::ActionTemplate' do
     sequence(:name) { |n| "A Template #{n}" }
-
+    duration_since_previous 10.minutes
+    position 0
     send_email true
     send_sms true
     email_subject 'Exciting New Features!'
     email_body 'Hi, check out our new features!'
     sms_body 'We have new features!'
+    association :sequence_template, factory: :junket_sequence_template
 
-    # type 'RecallSmsActionTemplate'
+    type 'TestActionTemplateSubclass'
   end
 
   factory :junket_action, class: 'Junket::Action' do
     send_at 10.minutes.from_now
     association :sequence, factory: :junket_sequence
-    association :campaign_template, factory: :junket_campaign_template
+    association :action_template, factory: :junket_action_template
     state 'scheduled'
   end
 
-  factory :junket_sequence_action_time, class: 'Junket::SequenceActionTime' do
-    duration_since_previous 10.minutes
-    association :sequence_template, factory: :junket_sequence_template
-    association :campaign_template, factory: :junket_campaign_template
-    campaign_template_type 'RecallSmsActionTemplate'
-  end
-
-  factory :junket_sequence, class: 'Junket::Sequence' do
-    object { User.create(email: 'a@a.com') }
-    owner { User.create(email: 'a@a.com') }
-    association :sequence_template, factory: :junket_sequence_template
-  end
+  # factory :junket_sequence, class: 'Junket::Sequence' do
+  #   object { User.create(email: 'a@a.com') }
+  #   owner { User.create(email: 'a@a.com') }
+  #   association :sequence_template, factory: :junket_sequence_template
+  # end
 end

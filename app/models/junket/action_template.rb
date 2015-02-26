@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: junket_campaign_templates
+# Table name: junket_action_templates
 #
 #  id            :integer          not null, primary key
 #  name          :string(255)
@@ -22,7 +22,7 @@ require 'liquid'
 # Represents the content for a mail-out. Can be used as a 'cookie-cutter' for
 # multiple campaigns (mail-outs), or represent the content of a single customised mail-out.
 # Now has to belong to a sequence template
-class Junket::CampaignTemplate < ActiveRecord::Base
+class Junket::ActionTemplate < ActiveRecord::Base
   ## Associations
   has_many :sequence_action_times, dependent: :destroy
 
@@ -56,10 +56,17 @@ class Junket::CampaignTemplate < ActiveRecord::Base
 
   validate :valid_liquid_markup?
 
-  ## Scopes
+  def send_email?
+    fail 'Please implement in subclass'
+  end
 
-  # Exclude Campaign STI subclass
-  default_scope { where('type IS NULL') }
+  def send_sms?
+    fail 'Please implement in subclass'
+  end
+
+  def create_action_for?
+    fail 'Please implement in subclass'
+  end
 
   ## Targeting
 
@@ -95,7 +102,7 @@ class Junket::CampaignTemplate < ActiveRecord::Base
   # Only applied to access level public templates, as two levels of nested Liquid
   # would suck for users to edit, and could be customised individually anyway.
   def prerender(attribute, viewer)
-    return send(attribute) if access_level != 'public'
+    return send(attribute) if sequence_template.access_level != 'public'
 
     Liquid::Template.parse(send(attribute)).render(viewer.class.name.underscore => viewer)
   end

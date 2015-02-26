@@ -9,7 +9,7 @@ Junket::Engine.routes.draw do
     # Templates the user can only read
     get :public, on: :collection
 
-    resources :campaign_templates, only: [:index, :show, :create, :update, :destroy] do
+    resources :action_templates, only: [:index, :show, :create, :update, :destroy] do
 
     end
   end

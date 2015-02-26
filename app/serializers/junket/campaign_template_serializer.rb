@@ -1,4 +1,4 @@
-class Junket::CampaignTemplateSerializer < ActiveModel::Serializer
+class Junket::ActionTemplateSerializer < ActiveModel::Serializer
   attributes\
     :id,
     :name,

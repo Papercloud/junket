@@ -1,6 +1,6 @@
 class CreateJunketCampaignTemplates < ActiveRecord::Migration
   def change
-    create_table :junket_campaign_templates do |t|
+    create_table :junket_action_templates do |t|
       t.string :name
       t.string :campaign_name
       t.string :email_subject

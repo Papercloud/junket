@@ -15,9 +15,7 @@
 # A history object for a sequences life while following a sequence template... Contains actions with details of the sucess of each event in the sequence.
 #
 class Junket::Sequence < ActiveRecord::Base
-  belongs_to :object, polymorphic: true
   belongs_to :owner, polymorphic: true
-  belongs_to :sequence_template
   has_many :actions, dependent: :destroy
 
   validates_presence_of :sequence_template
@@ -37,7 +35,7 @@ class Junket::Sequence < ActiveRecord::Base
     # sequence_template.sequence_action_times
     #
     # .each do |sequence_action_time|
-    #   new_action = actions.create(campaign_template: sequence_action_time.campaign_template, state: 'scheduled')
+    #   new_action = actions.create(action_template: sequence_action_time.action_template, state: 'scheduled')
     #     self.delay_for(sequence_action_time.duration).trigger_action(new_action.id)
     # end
   end

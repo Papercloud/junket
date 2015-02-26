@@ -11,15 +11,28 @@
 #  updated_at   :datetime
 #
 RSpec.describe Junket::SequenceTemplate do
-  describe 'factory' do
+  describe 'standard' do
     subject do
       create(:junket_sequence_template)
     end
 
-    it 'works' do
+    it 'create first action on reacll' do
+      structure = OpenStruct.new(id: 'piss', name: 'shit', email: 'porridge')
+      subject.action_templates.first.create_action_for(structure)
+
+      # has send_at
+      expect(Action.first.send_at).to_not eq(nil)
+      # same seq temp
+      expect(Action.first.sequence_template).to eq(subject)
+      # has set the object
+      expect(Action.first.object.id).to eq('piss')
+      # subclass tells you if its an email
+      expect(Action.first.send_email?).to eq(true)
+    end
+
+    it 'factory works' do
       expect(subject).to be_persisted
-      expect(subject.sequence_action_times.empty?).to eq(false)
-      expect(subject.sequence_action_times.first.campaign_template).to_not eq(nil)
+      expect(subject.action_templates.empty?).to eq(false)
     end
   end
 end

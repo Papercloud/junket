@@ -6,4 +6,4 @@ Example:
 
     This will create:
         config/initializers/junket.rb
-        db/migrate/...create_junket_campaign_templates.junket.rb
+        db/migrate/...create_junket_action_templates.junket.rb

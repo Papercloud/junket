@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: junket_campaign_templates
+# Table name: junket_action_templates
 #
 #  id            :integer          not null, primary key
 #  name          :string(255)
@@ -20,7 +20,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 # FactoryGirl.define do
-#   factory :junket_campaign_template, class: 'Junket::CampaignTemplate' do
+#   factory :junket_action_template, class: 'Junket::ActionTemplate' do
 #     name 'New Feature'
 #     send_email true
 #     send_sms true

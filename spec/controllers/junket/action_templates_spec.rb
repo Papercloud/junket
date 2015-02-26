@@ -70,5 +70,10 @@ resource 'Action Templates' do
       expect(status).to eq 201
       expect(response_body).to have_json_path('action_template/id')
     end
+    example 'Create a template for not my sequence doesnt go through' do
+      another_sequence = create(:junket_sequence_template, access_level: 'private', owner_id: 1, owner_type: 'NotMe')
+      do_request(action_template: attributes_for(:junket_action_template, sequence_template_id: another_sequence.id))
+      expect(status).to eq 403
+    end
   end
 end

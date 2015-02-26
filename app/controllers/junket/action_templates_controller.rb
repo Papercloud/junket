@@ -1,8 +1,8 @@
 require_dependency 'junket/application_controller'
 
 class Junket::ActionTemplatesController < Junket::ApplicationController
-  load_and_authorize_resource
-
+  load_resource
+  authorize_resource except: :create # kg: for some reaosn create isn't setting the sequence_template_id
   # All templates I can see
   def index
     respond @action_templates
@@ -24,6 +24,9 @@ class Junket::ActionTemplatesController < Junket::ApplicationController
 
   # Create a template
   def create
+    sequence_template_id = params[:action_template][:sequence_template_id]
+    @action_template.sequence_template_id = sequence_template_id
+    authorize! :create, @action_template
     if @action_template.save
       respond @action_template
     else

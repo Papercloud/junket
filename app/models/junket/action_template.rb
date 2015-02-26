@@ -61,6 +61,18 @@ class Junket::ActionTemplate < ActiveRecord::Base
   # Exclude Campaign STI subclass
   default_scope { where('type IS NULL') }
 
+  def send_email?
+    fail 'Please implement in subclass'
+  end
+
+  def send_sms?
+    fail 'Please implement in subclass'
+  end
+
+  def create_action_for?
+    fail 'Please implement in subclass'
+  end
+
   ## Targeting
 
   def targets

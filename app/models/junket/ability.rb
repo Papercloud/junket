@@ -12,7 +12,7 @@ class Junket::Ability
 
     can :manage, Junket::ActionTemplate, sequence_template: private_template_conditions
     can [:index, :show, :public], Junket::ActionTemplate, sequence_template: public_template_conditions
-    can [:create], Junket::ActionTemplate
+    can [:create], Junket::ActionTemplate, sequence_template: public_template_conditions
 
     can :manage, Junket::FilterCondition, campaign: private_template_conditions
     can [:index, :show], Junket::FilterCondition, action_template: public_template_conditions

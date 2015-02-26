@@ -16,7 +16,8 @@ describe Junket::SequenceTemplatesController, type: :controller do
       create_private_template
       get :mine
       expect(response.body).to have_json_size(1).at_path('sequence_templates')
-      expect(response.body).to have_json_size(2).at_path('sequence_templates/0/sequence_action_time_ids')
+
+      expect(response.body).to have_json_size(2).at_path('sequence_templates/0/action_template_ids')
     end
 
     it 'does not return templates created by another user' do

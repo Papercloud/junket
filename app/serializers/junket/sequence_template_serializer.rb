@@ -4,5 +4,5 @@ class Junket::SequenceTemplateSerializer < ActiveModel::Serializer
     :name,
     :access_level
 
-  has_many :sequence_action_times, embed: :ids, include: false
+  has_many :action_templates, embed: :ids, include: false
 end

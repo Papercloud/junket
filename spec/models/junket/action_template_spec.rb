@@ -64,4 +64,18 @@ RSpec.describe Junket::ActionTemplate do
     it { should validate_acceptance_of :send_email }
   end
 
+  it 'create first action on recall' do
+    structure = OpenStruct.new(id: '5', name: 'Blah', email: 'porridge@hotdoc.com')
+    subject.create_action_for(structure)
+
+    # has send_at
+    expect(Action.first.send_at).to_not eq(nil)
+    # same seq temp
+    expect(Action.first.sequence_template).to eq(subject)
+    # has set the object
+    expect(Action.first.object.id).to eq('5')
+    # subclass tells you if its an email
+    expect(Action.first.send_email?).to eq(true)
+  end
+
 end

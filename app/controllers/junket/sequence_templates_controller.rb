@@ -58,7 +58,6 @@ class Junket::SequenceTemplatesController < Junket::ApplicationController
 
   def sequence_template_params
     # We allow :access_level, :owner_id and :owner_type as they're validated against ability.rb by CanCan
-    params.require(:sequence_template).permit(:id, :name, :send_email, :email_subject, :email_body, :send_sms, :sms_body,
-                                              :access_level, :owner_id, :owner_type)
+    params.require(:sequence_template).permit(:id, :name, :access_level, :owner_id, :owner_type)
   end
 end

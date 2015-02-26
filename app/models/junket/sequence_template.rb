@@ -14,6 +14,7 @@
 # This class is a template of ordered action templates to apply to a recall group.
 # It can be used between clinics if it has the right access level.
 class Junket::SequenceTemplate < ActiveRecord::Base
+  
   ## Associations
   # Used with 'access_level' for access control. See Junket::Ability.
   belongs_to :owner, polymorphic: true
@@ -26,9 +27,7 @@ class Junket::SequenceTemplate < ActiveRecord::Base
   def access_level=(new_level)
     super new_level.to_s
   end
+
   validates :access_level, inclusion: { in: %w(public private) }
 
-  def sequence_action_times
-    super.order('position')
-  end
 end

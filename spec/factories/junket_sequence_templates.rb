@@ -13,7 +13,7 @@
 
 FactoryGirl.define do
   factory :junket_sequence_template, class: 'Junket::SequenceTemplate' do
-    sequence(:name) { |n| "S Template #{n}" }
+    sequence(:name) { |n| "Test Sequence Template #{n}" }
     access_level 'private'
     owner_id 1
     owner_type 'OpenStruct'

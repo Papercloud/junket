@@ -55,7 +55,7 @@ class Junket::ActionTemplate < ActiveRecord::Base
   validate :valid_liquid_markup?
 
   def create_action_for(struct)
-    # creates actoin and schedule it...
+    # creates action and schedule it...
     actions.create(run_datetime: run_after_duration.seconds.from_now, object_id: struct.id, object_type: struct.class.to_s).schedule!
   end
 

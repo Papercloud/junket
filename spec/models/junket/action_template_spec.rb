@@ -65,8 +65,9 @@ RSpec.describe Junket::ActionTemplate do
       template
     end
 
-    it { should validate_acceptance_of :send_sms? }
-    it { should validate_acceptance_of :send_email? }
+    # it { should validate_acceptance_of :send_sms? }
+    # it { should validate_acceptance_of :send_email? }
+
     it { should validate_presence_of :name }
   end
 

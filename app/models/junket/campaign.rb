@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: junket_campaign_templates
+# Table name: junket_action_templates
 #
 #  id            :integer          not null, primary key
 #  name          :string(255)
@@ -18,7 +18,7 @@
 #
 
 # Represents a single send-out of emails and SMSs to many users.
-class Junket::Campaign < Junket::CampaignTemplate
+class Junket::Campaign < Junket::ActionTemplate
   has_many :recipients, dependent: :delete_all
 
   # State machine to manage draft/scheduled/sent state.

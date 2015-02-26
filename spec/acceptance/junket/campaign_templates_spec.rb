@@ -2,73 +2,55 @@ resource 'Campaign Templates' do
 
   stub_current_user
 
-  before :each do
-    @public_template = create(:junket_campaign_template, access_level: 'public')
-    @my_template = create(:junket_campaign_template, access_level: 'private', owner_id: 1, owner_type: 'OpenStruct')
+  let(:sequence_template) do
+    create(:junket_sequence_template, access_level: 'private', owner_id: 1, owner_type: 'OpenStruct')
+  end
+
+  let(:action_template_id) do
+    sequence_template.sequence_action_times.first.action_template.id
   end
 
   def expect_attributes
-    [:id, :name, :send_sms, :send_email, :email_subject, :email_body, :sms_body].each do |attribute|
-      expect(response_body).to have_json_path("campaign_templates/0/#{attribute}")
+    [:id, :name, :body, :type, :sequence_template_id, :sequence_action_time_ids].each do |attribute|
+      expect(response_body).to have_json_path("action_templates/0/#{attribute}")
     end
   end
 
+  # This is for api documentation generation
   response_field :name, 'Name of the template'
-  response_field :campaign_name, 'Template for the name of a campaign using this campaign'
-  response_field :email_subject, 'Template for the email subject'
-  response_field :email_body, 'Liquid template for the email body'
-  response_field :sms_body, 'Template for the SMS body'
-  response_field :send_email, 'Whether to send email'
-  response_field :send_sms, 'Whether to send SMS'
 
-  get '/junket/campaign_templates' do
-    example 'List all templates that the user can read' do
-      do_request
+  get '/junket/action_templates?sequence_template_id=:id' do
+    example 'List all templates' do
+      do_request id: sequence_template.id
       expect(status).to eq 200
       expect_attributes
     end
   end
 
-  get '/junket/campaign_templates/mine' do
-    example 'List templates that the user can edit' do
-      do_request
-      expect(status).to eq 200
-      expect_attributes
-    end
-  end
-
-  get '/junket/campaign_templates/public' do
-    example 'List templates that the user can only read' do
-      do_request
-      expect(status).to eq 200
-      expect_attributes
-    end
-  end
-
-  get '/junket/campaign_templates/:id' do
+  get '/junket/action_templates/:id' do
     example 'Get a single template' do
-      do_request(id: Junket::CampaignTemplate.first.id)
+      do_request(id: action_template_id)
       expect(status).to eq 200
-      expect(response_body).to have_json_path('campaign_template/id')
+      expect(response_body).to have_json_path('action_template/id')
+      expect(to_json(response_body)['action_template']['id']).to eq(action_template_id)
     end
   end
 
-  put '/junket/campaign_templates/:id' do
+  put '/junket/action_templates/:id' do
     example 'Update an existing template' do
       new_subject = 'My New Subject'
-      do_request(id: @my_template.id, campaign_template: { email_subject: new_subject })
+      do_request(id: @my_template.id, action_template: { email_subject: new_subject })
 
       expect(status).to eq 200
-      expect(parse_json(response_body)['campaign_template']['email_subject']).to eq 'My New Subject'
+      expect(parse_json(response_body)['action_template']['email_subject']).to eq 'My New Subject'
     end
   end
-
-  post '/junket/campaign_templates' do
+  #
+  post '/junket/action_templates' do
     example 'Create a template' do
-      do_request(campaign_template: attributes_for(:junket_campaign_template, access_level: 'private', owner_id: 1, owner_type: 'OpenStruct'))
-
+      do_request(action_template: attributes_for(:junket_action_template, sequence_template_id: sequence_template.id))
       expect(status).to eq 201
-      expect(response_body).to have_json_path('campaign_template/id')
+      expect(response_body).to have_json_path('action_template/id')
     end
   end
 end

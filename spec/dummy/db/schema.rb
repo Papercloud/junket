@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20_150_224_032_103) do
 
   create_table 'junket_actions', force: true do |t|
     t.integer 'sequence_id',          null: false
-    t.integer 'campaign_template_id', null: false
+    t.integer 'action_template_id', null: false
     t.string 'state',                null: false
     t.datetime 'send_at',              null: false
     t.datetime 'created_at'
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20_150_224_032_103) do
 
   add_index 'junket_actions', ['sequence_id'], name: 'index_junket_actions_on_sequence_id'
 
-  create_table 'junket_campaign_templates', force: true do |t|
+  create_table 'junket_action_templates', force: true do |t|
     t.string 'name'
     t.string 'campaign_name'
     t.string 'email_subject'
@@ -75,8 +75,8 @@ ActiveRecord::Schema.define(version: 20_150_224_032_103) do
     t.integer 'duration_since_previous',             null: false
     t.integer 'position',                default: 0, null: false
     t.integer 'sequence_template_id',                null: false
-    t.integer 'campaign_template_id',                null: false
-    t.string 'campaign_template_type',              null: false
+    t.integer 'action_template_id',                null: false
+    t.string 'action_template_type',              null: false
     t.datetime 'created_at'
     t.datetime 'updated_at'
   end

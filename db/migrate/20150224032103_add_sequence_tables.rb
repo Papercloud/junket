@@ -8,16 +8,16 @@ class AddSequenceTables < ActiveRecord::Migration
     end
 
     # These columns are now on the sequence template, not campaign template
-    remove_column :junket_campaign_templates, :access_level
-    remove_column :junket_campaign_templates, :owner_id
-    remove_column :junket_campaign_templates, :owner_type
-    # add_column :junket_campaign_templates, :junket_sequence_template_id, :integer, null: false, index: true
+    remove_column :junket_action_templates, :access_level
+    remove_column :junket_action_templates, :owner_id
+    remove_column :junket_action_templates, :owner_type
+    # add_column :junket_action_templates, :junket_sequence_template_id, :integer, null: false, index: true
 
     create_table :junket_sequence_action_times do |t|
       t.integer :duration_since_previous, null: false
       t.integer :position, null: false, default: 0
       t.belongs_to :sequence_template, null: false
-      t.references :campaign_template, null: false, polymorphic: true
+      t.references :action_template, null: false, polymorphic: true
       t.timestamps
     end
     add_index :junket_sequence_action_times, :position, unique: true
@@ -33,7 +33,7 @@ class AddSequenceTables < ActiveRecord::Migration
 
     create_table :junket_actions do |t|
       t.belongs_to :sequence, null: false, index: true
-      t.belongs_to :campaign_template, null: false
+      t.belongs_to :action_template, null: false
       t.string :state, null: false
       t.datetime :send_at, null: false
       t.timestamps

@@ -37,7 +37,7 @@ class Junket::Sequence < ActiveRecord::Base
     # sequence_template.sequence_action_times
     #
     # .each do |sequence_action_time|
-    #   new_action = actions.create(campaign_template: sequence_action_time.campaign_template, state: 'scheduled')
+    #   new_action = actions.create(action_template: sequence_action_time.action_template, state: 'scheduled')
     #     self.delay_for(sequence_action_time.duration).trigger_action(new_action.id)
     # end
   end

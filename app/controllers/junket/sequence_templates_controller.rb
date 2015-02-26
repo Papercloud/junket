@@ -25,7 +25,7 @@ class Junket::SequenceTemplatesController < Junket::ApplicationController
 
   # Update a template
   def update
-    if @sequence_template.update_attributes(sequence_template_params)
+    if @sequence_template.save @sequence_template.update_attributes(sequence_template_params)
       respond(@sequence_template)
     else
       respond_with(@sequence_template.errors, status: :unprocessable_entity)

@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: junket_campaign_templates
+# Table name: junket_action_templates
 #
 #  id            :integer          not null, primary key
 #  name          :string(255)
@@ -22,7 +22,7 @@ require 'liquid'
 # Represents the content for a mail-out. Can be used as a 'cookie-cutter' for
 # multiple campaigns (mail-outs), or represent the content of a single customised mail-out.
 # Now has to belong to a sequence template
-class Junket::CampaignTemplate < ActiveRecord::Base
+class Junket::ActionTemplate < ActiveRecord::Base
   ## Associations
   has_many :sequence_action_times, dependent: :destroy
 

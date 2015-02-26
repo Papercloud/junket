@@ -12,13 +12,13 @@
 
 # Represents an instance of a Junket::Filter with a given value,
 # used with other FilterConditions to create a targeted recipient list.
-# These are defined by users and attached to CampaignTemplates.
+# These are defined by users and attached to ActionTemplates.
 class Junket::FilterCondition < ActiveRecord::Base
   belongs_to :filter
 
-  # Two relationships as Campaign inherits with STI from CampaignTemplate.
+  # Two relationships as Campaign inherits with STI from ActionTemplate.
   belongs_to :campaign, class_name: 'Junket::Campaign'
-  belongs_to :campaign_template, class_name: 'Junket::CampaignTemplate', foreign_key: :campaign_id
+  belongs_to :action_template, class_name: 'Junket::ActionTemplate', foreign_key: :campaign_id
 
   validates :filter, :campaign_id, presence: true
 end

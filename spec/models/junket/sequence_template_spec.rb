@@ -18,8 +18,7 @@ RSpec.describe Junket::SequenceTemplate do
 
     it 'works' do
       expect(subject).to be_persisted
-      expect(subject.sequence_action_times.empty?).to eq(false)
-      expect(subject.sequence_action_times.first.campaign_template).to_not eq(nil)
+      expect(subject.action_templates.empty?).to eq(false)
     end
   end
 end

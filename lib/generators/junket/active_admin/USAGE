@@ -5,5 +5,5 @@ Example:
     rails generate junket:active_admin
 
     This will create:
-        app/admin/junket_campaign_template.rb
+        app/admin/junket_action_template.rb
         app/admin/junket_filter.rb

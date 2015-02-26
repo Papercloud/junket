@@ -4,7 +4,7 @@
 #
 #  id                   :integer          not null, primary key
 #  sequence_id          :integer          not null
-#  campaign_template_id :integer          not null
+#  action_template_id :integer          not null
 #  state                :string(255)      not null
 #  send_at              :datetime         not null
 #  created_at           :datetime
@@ -15,9 +15,9 @@
 class Junket::Action < ActiveRecord::Base
   # attr_accessible :state
   belongs_to :sequence
-  belongs_to :campaign_template
+  belongs_to :action_template
 
-  validates_presence_of :send_at, :campaign_template, :sequence
+  validates_presence_of :send_at, :action_template, :sequence
 
   # State machine to manage waiting/scheduled/sent state.
   include AASM

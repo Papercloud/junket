@@ -4,7 +4,7 @@
 #
 #  id                   :integer          not null, primary key
 #  name                 :string(255)
-#  send_at              :datetime
+#  run_datetime              :datetime
 #  owner_id             :integer
 #  owner_type           :string(255)
 #  action_template_id :integer

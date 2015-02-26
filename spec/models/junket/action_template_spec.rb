@@ -59,11 +59,14 @@ RSpec.describe Junket::ActionTemplate do
 
   describe 'when set to send neither sms nor email' do
     subject do
-      build(:junket_action_template, send_sms: false, send_email: false)
+      template = build(:junket_action_template)
+      allow(template).to receive(:send_sms?) { false }
+      allow(template).to receive(:send_email?) { false }
+      template
     end
 
-    it { should validate_acceptance_of :send_sms }
-    it { should validate_acceptance_of :send_email}
+    it { should validate_acceptance_of :send_sms? }
+    it { should validate_acceptance_of :send_email? }
     it { should validate_presence_of :name }
   end
 

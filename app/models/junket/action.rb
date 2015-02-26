@@ -19,7 +19,7 @@ class Junket::Action < ActiveRecord::Base
   belongs_to :action_template
   belongs_to :sequence_template
 
-  validates_presence_of :send_at, :action_template, :sequence_template, :object
+  validates_presence_of :run_datetime, :action_template, :sequence_template, :object
 
   has_one :sequence_template, through: :action_template
 
@@ -57,10 +57,10 @@ class Junket::Action < ActiveRecord::Base
 
   private
 
-  # Schedule a Sidekiq job to deliver in the future, at 'send_at'
+  # Schedule a Sidekiq job to deliver in the future, at 'run_datetime'
   def schedule_delivery
     # Schedule to send in the future
-    self.class.delay.finalize_and_deliver(id, send_at)
+    self.class.delay.finalize_and_deliver(id, run_datetime)
   end
 
   # Do the work of sending out a campaign.
@@ -107,7 +107,7 @@ class Junket::Action < ActiveRecord::Base
   end
 
   # Finalize recipients, and send or schedule when done.
-  def self.finalize_and_deliver(id, send_at)
+  def self.finalize_and_deliver(id, run_datetime)
     campaign = find_by_id(id)
     return unless campaign
 
@@ -117,9 +117,9 @@ class Junket::Action < ActiveRecord::Base
 
     puts "Targeted #{campaign.recipients.count} Recipients for Campaign #{id}"
 
-    if send_at
-      puts "Delivery of Campaign #{id} scheduled for #{send_at}"
-      self.class.delay_until(send_at).deliver_instance(id)
+    if run_datetime
+      puts "Delivery of Campaign #{id} scheduled for #{run_datetime}"
+      self.class.delay_until(run_datetime).deliver_instance(id)
     else
       puts "Delivering Campaign #{id} now"
       self.class.deliver_instance(id)

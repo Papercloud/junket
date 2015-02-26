@@ -47,6 +47,6 @@ class Junket::ActionTemplatesController < Junket::ApplicationController
   end
 
   def action_template_params
-    params.require(:action_template).permit(:id, :name, :send_email, :email_subject, :email_body, :send_sms, :sms_body, :type, :send_at)
+    params.require(:action_template).permit(:id, :name, :send_email, :email_subject, :email_body, :send_sms, :sms_body, :type, :run_datetime)
   end
 end

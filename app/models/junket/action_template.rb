@@ -56,7 +56,7 @@ class Junket::ActionTemplate < ActiveRecord::Base
 
   def create_action_for(struct)
     # creates actoin and
-    actions.create(run_datetime: run_after_duration.seconds.from_now, object_id: struct.id, object_type: struct.class.to_s).delay_for(run_after_duration).finalize_and_deliver
+    actions.create(run_datetime: run_after_duration.seconds.from_now, object_id: struct.id, object_type: struct.class.to_s).schedule_delivery
   end
 
   def send_email?

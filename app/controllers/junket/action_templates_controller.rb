@@ -1,7 +1,7 @@
 require_dependency 'junket/application_controller'
 
 class Junket::ActionTemplatesController < Junket::ApplicationController
-  load_and_authorize_resource through: :sequence_template
+  load_and_authorize_resource
 
   # All templates I can see
   def index
@@ -15,7 +15,7 @@ class Junket::ActionTemplatesController < Junket::ApplicationController
 
   # Update a template
   def update
-    if @action_template.save @action_template.update_attributes(action_template_params)
+    if @action_template.update_attributes(action_template_params)
       respond(@action_template)
     else
       respond_with(@action_template.errors, status: :unprocessable_entity)

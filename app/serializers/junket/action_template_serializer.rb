@@ -2,14 +2,16 @@ class Junket::ActionTemplateSerializer < ActiveModel::Serializer
   attributes\
     :id,
     :name,
-    :send_email,
     :email_subject,
     :email_body,
-    :send_sms,
     :sms_body,
-    :created_at
+    :created_at,
+    :type,
+    :position,
+    :run_after_duration
 
-  has_many :filter_conditions, embed: :ids, include: true
+  # has_many :filter_conditions, embed: :ids, include: true
+  has_one :sequence_template, embed: :ids, include: false
 
   def email_subject
     object.prerender(:email_subject, current_junket_user)

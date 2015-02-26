@@ -59,26 +59,35 @@ RSpec.describe Junket::ActionTemplate do
 
   describe 'when set to send neither sms nor email' do
     subject do
-      build(:junket_action_template, send_sms: false, send_email: false)
+      template = build(:junket_action_template)
+      allow(template).to receive(:send_sms?) { false }
+      allow(template).to receive(:send_email?) { false }
+      template
     end
 
-    it { should validate_acceptance_of :send_sms }
-    it { should validate_acceptance_of :send_email}
+    it { should validate_acceptance_of :send_sms? }
+    it { should validate_acceptance_of :send_email? }
     it { should validate_presence_of :name }
   end
 
-  it 'create first action on recall' do
-    structure = OpenStruct.new(id: '5', name: 'Blah', email: 'porridge@hotdoc.com')
-    subject.create_action_for(structure)
+  describe 'created action_template' do
+    subject do
+      create(:junket_action_template)
+    end
 
-    # has run_datetime
-    expect(Junket::Action.first.run_datetime).to_not eq(nil)
-    # same seq temp
-    expect(Junket::Action.first.sequence_template).to eq(subject)
-    # has set the object
-    expect(Junket::Action.first.object.id).to eq('5')
-    # subclass tells you if its an email
-    expect(Junket::Action.first.send_email?).to eq(true)
+    it 'will make a recall template' do
+      structure = OpenStruct.new(id: '5', name: 'Blah', email: 'porridge@hotdoc.com')
+      subject.create_action_for(structure)
+
+      # has run_datetime
+      expect(Junket::Action.first.run_datetime).to_not eq(nil)
+      # same seq temp
+      expect(Junket::Action.first.sequence_template).to eq(subject)
+      # has set the object
+      expect(Junket::Action.first.object.id).to eq('5')
+      # subclass tells you if its an email
+      expect(Junket::Action.first.send_email?).to eq(true)
+    end
   end
 
 end

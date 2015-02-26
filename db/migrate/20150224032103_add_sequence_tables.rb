@@ -7,42 +7,52 @@ class AddSequenceTables < ActiveRecord::Migration
       t.timestamps
     end
 
+    create_table :junket_actions do |t|
+      t.belongs_to :action_template, null: false, index: true
+      t.references :object, null: false, polymorphic: true, index: true
+      t.string :state, null: false
+      t.datetime :run_datetime, null: false
+      t.timestamps
+    end
+
     # These columns are now on the sequence template, not campaign template
     remove_column :junket_campaign_templates, :access_level
     remove_column :junket_campaign_templates, :owner_id
     remove_column :junket_campaign_templates, :owner_type
-    # add_column :junket_campaign_templates, :junket_sequence_template_id, :integer, null: false, index: true
+    remove_column :junket_campaign_templates, :send_at
+    remove_column :junket_campaign_templates, :send_email
+    remove_column :junket_campaign_templates, :send_sms
+    remove_column :junket_campaign_templates, :state
 
-    create_table :junket_sequence_action_times do |t|
-      t.integer :duration_since_previous, null: false
-      t.integer :position, null: false, default: 0
-      t.belongs_to :sequence_template, null: false
-      t.references :campaign_template, null: false, polymorphic: true
-      t.timestamps
-    end
-    add_index :junket_sequence_action_times, :position, unique: true
-    add_index :junket_sequence_action_times, [:sequence_template_id, :position], unique: true, name: 'my_ordered_index'
+    add_column :junket_campaign_templates, :run_after_duration, :integer, default: 0, null: false
+    add_column :junket_campaign_templates, :position, :integer, default: 0, null: false
 
-    create_table :junket_sequences do |t|
-      # will be a recall in hotdocs case
-      t.references :object, null: false, polymorphic: true, index: true
-      t.belongs_to :sequence_template, null: false, index: true
-      t.references :owner, polymorphic: true, index: true
-      t.timestamps
+    change_table :junket_campaign_templates do |t|
+      t.belongs_to :sequence_template, index: true
     end
 
-    create_table :junket_actions do |t|
-      t.belongs_to :sequence, null: false, index: true
-      t.belongs_to :campaign_template, null: false
-      t.string :state, null: false
-      t.datetime :send_at, null: false
-      t.timestamps
-    end
+    rename_table :junket_campaign_templates, :junket_action_templates
   end
 
   def down
-    [:junket_sequence_action_times, :junket_sequences, :junket_actions, :junket_sequence_templates].each do |table|
+    [:junket_actions, :junket_sequence_templates].each do |table|
       drop_table table
     end
+
+    remove_column :junket_action_templates, :junket_sequence_template_id
+    remove_column :junket_action_templates, :run_after_duration
+    remove_column :junket_action_templates, :position
+
+    add_column :junket_action_templates, :access_level, :string, default: :private, index: true
+    add_column :junket_action_templates, :send_at, :datetime
+    add_column :junket_action_templates, :send_email, :boolean, default: true, null: false
+    add_column :junket_action_templates, :send_sms, :boolean, default: true, null: false
+    add_column :junket_action_templates, :state, :string
+
+    change_table :junket_action_templates do |t|
+      t.references :owner, polymorphic: true, index: true
+    end
+
+    rename_table :junket_action_templates, :junket_campaign_templates
   end
 end

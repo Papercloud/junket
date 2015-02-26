@@ -56,11 +56,6 @@ class Junket::ActionTemplate < ActiveRecord::Base
 
   validate :valid_liquid_markup?
 
-  ## Scopes
-
-  # Exclude Campaign STI subclass
-  default_scope { where('type IS NULL') }
-
   def send_email?
     fail 'Please implement in subclass'
   end
@@ -107,7 +102,7 @@ class Junket::ActionTemplate < ActiveRecord::Base
   # Only applied to access level public templates, as two levels of nested Liquid
   # would suck for users to edit, and could be customised individually anyway.
   def prerender(attribute, viewer)
-    return send(attribute) if access_level != 'public'
+    return send(attribute) if sequence_template.access_level != 'public'
 
     Liquid::Template.parse(send(attribute)).render(viewer.class.name.underscore => viewer)
   end

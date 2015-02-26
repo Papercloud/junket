@@ -15,9 +15,7 @@
 # A history object for a sequences life while following a sequence template... Contains actions with details of the sucess of each event in the sequence.
 #
 class Junket::Sequence < ActiveRecord::Base
-  belongs_to :object, polymorphic: true
   belongs_to :owner, polymorphic: true
-  belongs_to :sequence_template
   has_many :actions, dependent: :destroy
 
   validates_presence_of :sequence_template

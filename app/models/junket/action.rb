@@ -14,10 +14,11 @@
 # Each event in a sequence, this has details of low level events such as an sms being sent and when.
 class Junket::Action < ActiveRecord::Base
   # attr_accessible :state
-  belongs_to :sequence
+  belongs_to :object, polymorphic: true
   belongs_to :action_template
+  belongs_to :sequence_template
 
-  validates_presence_of :send_at, :action_template, :sequence
+  validates_presence_of :send_at, :action_template, :sequence_template, :object
 
   # State machine to manage waiting/scheduled/sent state.
   include AASM
@@ -34,9 +35,6 @@ class Junket::Action < ActiveRecord::Base
       transitions from: :waiting, to: :scheduled
     end
   end
-
-  # Clear default_scopes set by parent class.
-  self.default_scopes = []
 
   ## Targeting
 

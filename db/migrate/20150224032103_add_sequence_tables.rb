@@ -27,9 +27,9 @@ class AddSequenceTables < ActiveRecord::Migration
     add_column :junket_campaign_templates, :run_after_duration, :integer, default: 0, null: false
     add_column :junket_campaign_templates, :position, :integer, default: 0, null: false
 
-    # change_table :junket_campaign_templates do |t|
-    # t.belongs_to :sequence_template, index: true
-    # end
+    change_table :junket_campaign_templates do |t|
+      t.belongs_to :sequence_template, index: true
+    end
 
     rename_table :junket_campaign_templates, :junket_action_templates
   end

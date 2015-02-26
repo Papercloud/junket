@@ -1,4 +1,4 @@
-resource 'Campaign Templates' do
+resource 'Action Templates' do
 
   stub_current_user
 
@@ -27,12 +27,20 @@ resource 'Campaign Templates' do
     end
   end
 
+  get '/junket/action_templates?sequence_template_id=:id' do
+    example 'Dont show from other sequence templates' do
+      other_seq = create(:junket_sequence_template, access_level: 'private', owner_id: 1, owner_type: 'OpenStruct')
+      do_request id: sequence_template.id
+      expect(parse_json(response_body)['action_templates'].map { |t| t['id'] }).to_not include(other_seq.action_templates.first)
+    end
+  end
+
   get '/junket/action_templates/:id' do
     example 'Get a single template' do
       do_request(id: action_template_id)
       expect(status).to eq 200
       expect(response_body).to have_json_path('action_template/id')
-      expect(to_json(response_body)['action_template']['id']).to eq(action_template_id)
+      expect(parse_json(response_body)['action_template']['id']).to eq(action_template_id)
     end
   end
 

@@ -22,8 +22,6 @@ FactoryGirl.define do
     sequence(:name) { |n| "A Template #{n}" }
     run_after_duration 10.minutes
     position 0
-    send_email true
-    send_sms true
     email_subject 'Exciting New Features!'
     email_body 'Hi, check out our new features!'
     sms_body 'We have new features!'

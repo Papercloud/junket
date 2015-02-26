@@ -222,6 +222,7 @@ DEPENDENCIES
   rspec_api_documentation
   rubocop
   shoulda
+  sidekiq
   sqlite3
   terminal-notifier-guard
   thor (= 0.19.1)

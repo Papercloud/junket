@@ -17,9 +17,8 @@ class Junket::Action < ActiveRecord::Base
   # attr_accessible :state
   belongs_to :object, polymorphic: true
   belongs_to :action_template
-  belongs_to :sequence_template
 
-  validates_presence_of :run_datetime, :action_template, :sequence_template, :object
+  validates_presence_of :run_datetime, :action_template, :sequence_template, :object_id, :object_type # allow objects that dont exist to not invalidate the action
 
   has_one :sequence_template, through: :action_template
 

@@ -2,19 +2,18 @@
 #
 # Table name: junket_action_templates
 #
-#  id            :integer          not null, primary key
-#  name          :string(255)
-#  campaign_name :string(255)
-#  email_subject :string(255)
-#  email_body    :text
-#  sms_body      :text
-#  send_email    :boolean          default(TRUE), not null
-#  send_sms      :boolean          default(TRUE), not null
-#  created_at    :datetime
-#  updated_at    :datetime
-#  type          :string(255)
-#  state         :string(255)
-#  send_at       :datetime
+#  id                   :integer          not null, primary key
+#  name                 :string(255)
+#  campaign_name        :string(255)
+#  email_subject        :string(255)
+#  email_body           :text
+#  sms_body             :text
+#  created_at           :datetime
+#  updated_at           :datetime
+#  type                 :string(255)
+#  sequence_template_id :integer
+#  run_after_duration   :integer          default(0), not null
+#  position             :integer          default(0), not null
 #
 
 require 'liquid'
@@ -24,21 +23,20 @@ require 'liquid'
 # Now has to belong to a sequence template
 class Junket::ActionTemplate < ActiveRecord::Base
   ## Associations
-  has_many :sequence_action_times, dependent: :destroy
-
   # Used with 'access_level' for access control. See Junket::Ability.
-  belongs_to :owner, polymorphic: true
+  belongs_to :sequence_template
 
   # Pre-defined filters for this campaign for the user's convenience.
   has_many :filter_conditions, dependent: :destroy, foreign_key: :campaign_id
 
   # Uses of this template. Don't allow deletion of the template if it's used on a
-  # campaign, as the template holds the campaign's copy.
-  has_many :campaigns
+  # action, as the template holds the action's copy.
+  has_many :actions, dependent: :destroy
+  has_many :sequence_action_times, dependent: :destroy
 
   ## Validations
 
-  validates :name, presence: true
+  validates_presence_of :name, :sequence_template
 
   with_options if: :send_email? do
     validates :email_subject, presence: true
@@ -55,6 +53,10 @@ class Junket::ActionTemplate < ActiveRecord::Base
   validates :send_email, acceptance: { accept: true }, unless: :send_sms?
 
   validate :valid_liquid_markup?
+
+  def create_action_for(_struct)
+    # .create(send_at: )
+  end
 
   def send_email?
     fail 'Please implement in subclass'

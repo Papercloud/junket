@@ -17,8 +17,7 @@ class Junket::SequenceTemplate < ActiveRecord::Base
   ## Associations
   # Used with 'access_level' for access control. See Junket::Ability.
   belongs_to :owner, polymorphic: true
-
-  has_many :sequence_action_times, dependent: :destroy
+  has_many :action_templates, dependent: :destroy
 
   validates_presence_of :name, :owner_id, :owner_type
 

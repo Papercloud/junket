@@ -2,19 +2,18 @@
 #
 # Table name: junket_action_templates
 #
-#  id            :integer          not null, primary key
-#  name          :string(255)
-#  campaign_name :string(255)
-#  email_subject :string(255)
-#  email_body    :text
-#  sms_body      :text
-#  send_email    :boolean          default(TRUE), not null
-#  send_sms      :boolean          default(TRUE), not null
-#  created_at    :datetime
-#  updated_at    :datetime
-#  type          :string(255)
-#  state         :string(255)
-#  send_at       :datetime
+#  id                   :integer          not null, primary key
+#  name                 :string(255)
+#  campaign_name        :string(255)
+#  email_subject        :string(255)
+#  email_body           :text
+#  sms_body             :text
+#  created_at           :datetime
+#  updated_at           :datetime
+#  type                 :string(255)
+#  sequence_template_id :integer
+#  run_after_duration   :integer          default(0), not null
+#  position             :integer          default(0), not null
 #
 
 RSpec.describe Junket::ActionTemplate do

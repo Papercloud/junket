@@ -72,13 +72,13 @@ RSpec.describe Junket::ActionTemplate do
     subject.create_action_for(structure)
 
     # has run_datetime
-    expect(Action.first.run_datetime).to_not eq(nil)
+    expect(Junket::Action.first.run_datetime).to_not eq(nil)
     # same seq temp
-    expect(Action.first.sequence_template).to eq(subject)
+    expect(Junket::Action.first.sequence_template).to eq(subject)
     # has set the object
-    expect(Action.first.object.id).to eq('5')
+    expect(Junket::Action.first.object.id).to eq('5')
     # subclass tells you if its an email
-    expect(Action.first.send_email?).to eq(true)
+    expect(Junket::Action.first.send_email?).to eq(true)
   end
 
 end

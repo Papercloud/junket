@@ -2,13 +2,14 @@
 #
 # Table name: junket_actions
 #
-#  id                   :integer          not null, primary key
-#  sequence_id          :integer          not null
+#  id                 :integer          not null, primary key
 #  action_template_id :integer          not null
-#  state                :string(255)      not null
-#  send_at              :datetime         not null
-#  created_at           :datetime
-#  updated_at           :datetime
+#  object_id          :integer          not null
+#  object_type        :string(255)      not null
+#  state              :string(255)      not null
+#  run_datetime       :datetime         not null
+#  created_at         :datetime
+#  updated_at         :datetime
 #
 
 # Each event in a sequence, this has details of low level events such as an sms being sent and when.
@@ -19,6 +20,8 @@ class Junket::Action < ActiveRecord::Base
   belongs_to :sequence_template
 
   validates_presence_of :send_at, :action_template, :sequence_template, :object
+
+  has_one :sequence_template, through: :action_template
 
   # State machine to manage waiting/scheduled/sent state.
   include AASM

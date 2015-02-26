@@ -29,7 +29,7 @@ FactoryGirl.define do
 
   factory :junket_action_template, class: 'Junket::ActionTemplate' do
     sequence(:name) { |n| "A Template #{n}" }
-    duration_since_previous 10.minutes
+    run_after_duration 10.minutes
     position 0
     send_email true
     send_sms true

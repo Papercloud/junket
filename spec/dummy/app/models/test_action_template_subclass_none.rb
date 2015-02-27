@@ -1,13 +1,13 @@
-class TestActionTemplateSubclass < Junket::ActionTemplate
+class TestActionTemplateSubclassNone < Junket::ActionTemplate
   def create_action_for(struct)
     super(struct)
   end
 
   def send_email?
-    true
+    false
   end
 
   def send_sms?
-    true
+    false
   end
 end

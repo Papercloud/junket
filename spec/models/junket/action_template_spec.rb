@@ -22,7 +22,7 @@ RSpec.describe Junket::ActionTemplate do
 
   describe 'when set to send email' do
     subject do
-      build(:junket_action_template, send_email: true)
+      build(:junket_action_template_email)
     end
 
     it { should validate_presence_of :email_subject }
@@ -44,7 +44,7 @@ RSpec.describe Junket::ActionTemplate do
 
   describe 'when set to send sms' do
     subject do
-      build(:junket_action_template, send_sms: true)
+      build(:junket_action_template_sms)
     end
 
     it { should validate_presence_of :sms_body }
@@ -59,20 +59,20 @@ RSpec.describe Junket::ActionTemplate do
 
   describe 'when set to send neither sms nor email' do
     subject do
-      template = build(:junket_action_template)
-      allow(template).to receive(:send_sms?) { false }
-      allow(template).to receive(:send_email?) { false }
+      template = build(:junket_action_template_none)
+      # allow(template).to receive(:send_sms?) { false }
+      # allow(template).to receive(:send_email?) { false }
       template
     end
 
-    it { should validate_acceptance_of :send_sms? }
-    it { should validate_acceptance_of :send_email? }
+    it { subject.send_sms?.should eq false }
+    it { subject.send_email?.should eq false }
     it { should validate_presence_of :name }
   end
 
   describe 'created action_template' do
     subject do
-      create(:junket_action_template)
+      create(:junket_action_template_email)
     end
 
     it 'will make a recall template' do

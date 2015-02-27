@@ -124,6 +124,6 @@ class Junket::ActionTemplate < ActiveRecord::Base
 
   def create_action_for(_object)
     # creates action and schedule it...
-    actions.create(run_datetime: run_after_duration.seconds.from_now, object_id: struct.id, object_type: struct.class.to_s).schedule!
+    actions.create(run_datetime: run_after_duration.seconds.from_now, object_id: object.id, object_type: object.class.to_s).schedule!
   end
 end

@@ -16,9 +16,16 @@
 #  position             :integer          default(0), not null
 #
 
+require 'sidekiq/testing'
+
 RSpec.describe Junket::ActionTemplate do
 
-
+  before :each do
+    @test_sequence_template = FactoryGirl.create(:junket_sequence_template)
+    @test_email_template = FactoryGirl.create(:junket_action_template_email, position: 1, sequence_template: @test_sequence_template)
+    @test_sms_template = FactoryGirl.create(:junket_action_template_sms, position: 2, sequence_template: @test_sequence_template)
+    @test_generic_template = FactoryGirl.create(:junket_action_template_sms, position: 3)
+  end
 
   describe 'when set to send email' do
     subject do
@@ -90,6 +97,55 @@ RSpec.describe Junket::ActionTemplate do
       expect(Junket::Action.first.object_id).to eq(5)
       # subclass of ActionTemplate tells you if its an email, not action
       # expect(Junket::Action.first.send_email?).to eq(true)
+    end
+
+    it 'will make a recall template' do
+      structure = OpenStruct.new(id: 5, name: 'Blah', email: 'porridge@hotdoc.com')
+      subject.create_action_for(structure)
+
+      #p Junket::Action.first.object
+
+      # has run_datetime
+      expect(Junket::Action.first.run_datetime).to_not eq(nil)
+      # same seq temp
+      expect(Junket::Action.first.action_template).to eq(subject)
+      # has set the object
+      # probably should test .object.id but OpenStruct doesnt like it
+      expect(Junket::Action.first.object_id).to eq(5)
+      # subclass of ActionTemplate tells you if its an email, not action
+      # expect(Junket::Action.first.send_email?).to eq(true)
+    end
+  end
+
+  describe 'created action_template' do
+    subject do
+      create(:junket_action_template_email)
+    end
+
+    it 'will make a recall template' do
+      structure = OpenStruct.new(id: 5, name: 'Blah', email: 'porridge@hotdoc.com')
+      subject.create_first_action(structure)
+
+      #p Junket::Action.first.object
+
+      # has run_datetime
+      expect(Junket::Action.first.run_datetime).to_not eq(nil)
+      # same seq temp
+      expect(Junket::Action.first.action_template).to eq(subject)
+      # has set the object
+      # probably should test .object.id but OpenStruct doesnt like it
+      expect(Junket::Action.first.object_id).to eq(5)
+      # subclass of ActionTemplate tells you if its an email, not action
+      # expect(Junket::Action.first.send_email?).to eq(true)
+    end
+
+    it 'will create a sequence of actions' do
+      Sidekiq::Testing.inline! do
+        pending 'action chain test WIP'
+        structure = OpenStruct.new(id: 5, name: 'Blah', email: 'porridge@hotdoc.com')
+        subject.create_first_action(structure)
+
+      end
     end
   end
 

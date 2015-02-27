@@ -1,6 +1,6 @@
 # Base class for all Junket controllers.
 # Inherits from the host app's ApplicationController
-class Junket::ApplicationController < Junket.base_controller.constantize
+class Junket::ApplicationController < Junket.base_controller.try(:constantize) || ApplicationController
   responders :json
   respond_to :json
 

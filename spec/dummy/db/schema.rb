@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150224032103) do
+ActiveRecord::Schema.define(version: 20150227023152) do
 
   create_table "junket_action_templates", force: true do |t|
     t.string   "name"
@@ -64,13 +64,13 @@ ActiveRecord::Schema.define(version: 20150224032103) do
   create_table "junket_recipients", force: true do |t|
     t.integer  "target_id"
     t.string   "target_type"
-    t.integer  "campaign_id"
+    t.integer  "action_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "email_third_party_id"
   end
 
-  add_index "junket_recipients", ["campaign_id"], name: "index_junket_recipients_on_campaign_id"
+  add_index "junket_recipients", ["action_id"], name: "index_junket_recipients_on_action_id"
   add_index "junket_recipients", ["email_third_party_id"], name: "index_junket_recipients_on_email_third_party_id"
   add_index "junket_recipients", ["target_id", "target_type"], name: "index_junket_recipients_on_target_id_and_target_type"
 

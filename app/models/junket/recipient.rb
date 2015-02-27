@@ -12,9 +12,9 @@
 #
 
 class Junket::Recipient < ActiveRecord::Base
-  # An object in the parent app to which the campaign was sent. Usually something like 'User'.
+  # An object in the parent app on which the action was run. Usually something like 'User'.
   belongs_to :target, polymorphic: true
 
-  # The campaign which was sent.
-  belongs_to :campaign
+  # The action which was run.
+  belongs_to :action
 end

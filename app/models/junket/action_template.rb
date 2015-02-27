@@ -49,6 +49,7 @@ class Junket::ActionTemplate < ActiveRecord::Base
     validates :sms_body, length: { maximum: 160 }
   end
 
+  # By default sms and email sending is ok, override in subclass
   validates :send_sms, acceptance: { accept: true }, unless: :send_email?
   validates :send_email, acceptance: { accept: true }, unless: :send_sms?
 
@@ -57,13 +58,15 @@ class Junket::ActionTemplate < ActiveRecord::Base
   acts_as_list
 
   def create_first_action(object)
+    # You can only kick off a sequence for a particular recall once
     return if actions.where(object_id: object.id, object_type: object.class.to_s).count > 0
     create_action_for(object)
   end
 
   def create_next_action (action)
     if (action.present?)
-       # current position
+       # Making assumption here that action templates for a sequence template have
+       # position that increments by 1 each time, will bail if the is a gap
       action_template = ActionTemplate.where('position = (?) AND sequence_template_id = (?)', self.position + 1, sequence_template_id).first
       action_template.create_action_for(action.object) if action_template.present?
     end

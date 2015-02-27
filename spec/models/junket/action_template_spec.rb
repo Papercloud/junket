@@ -86,24 +86,7 @@ RSpec.describe Junket::ActionTemplate do
       structure = OpenStruct.new(id: 5, name: 'Blah', email: 'porridge@hotdoc.com')
       subject.create_action_for(structure)
 
-      #p Junket::Action.first.object
-
-      # has run_datetime
-      expect(Junket::Action.first.run_datetime).to_not eq(nil)
-      # same seq temp
-      expect(Junket::Action.first.action_template).to eq(subject)
-      # has set the object
-      # probably should test .object.id but OpenStruct doesnt like it
-      expect(Junket::Action.first.object_id).to eq(5)
-      # subclass of ActionTemplate tells you if its an email, not action
-      # expect(Junket::Action.first.send_email?).to eq(true)
-    end
-
-    it 'will make a recall template' do
-      structure = OpenStruct.new(id: 5, name: 'Blah', email: 'porridge@hotdoc.com')
-      subject.create_action_for(structure)
-
-      #p Junket::Action.first.object
+      # p Junket::Action.first.object
 
       # has run_datetime
       expect(Junket::Action.first.run_datetime).to_not eq(nil)
@@ -126,7 +109,7 @@ RSpec.describe Junket::ActionTemplate do
       structure = OpenStruct.new(id: 5, name: 'Blah', email: 'porridge@hotdoc.com')
       subject.create_first_action(structure)
 
-      #p Junket::Action.first.object
+      # p Junket::Action.first.object
 
       # has run_datetime
       expect(Junket::Action.first.run_datetime).to_not eq(nil)

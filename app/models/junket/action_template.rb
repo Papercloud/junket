@@ -22,6 +22,8 @@ require 'liquid'
 # multiple campaigns (mail-outs), or represent the content of a single customised mail-out.
 # Now has to belong to a sequence template
 class Junket::ActionTemplate < ActiveRecord::Base
+  attr_accessible :name, :type, :email_body, :sms_body, :run_after_duration, :sequence_template_id, :sequence_template if Rails.version[0] == '3'
+
   ## Associations
   # Used with 'access_level' for access control. See Junket::Ability.
   belongs_to :sequence_template
@@ -63,13 +65,12 @@ class Junket::ActionTemplate < ActiveRecord::Base
     create_action_for(object)
   end
 
-  def create_next_action (action)
-    if (action.present?)
-       # Making assumption here that action templates for a sequence template have
-       # position that increments by 1 each time, will bail if the is a gap
-      action_template = ActionTemplate.where('position = (?) AND sequence_template_id = (?)', self.position + 1, sequence_template_id).first
-      action_template.create_action_for(action.object) if action_template.present?
-    end
+  def create_next_action(action)
+    return unless action.present?
+    # Making assumption here that action templates for a sequence template have
+    # position that increments by 1 each time, will bail if the is a gap
+    action_template = ActionTemplate.where('position = (?) AND sequence_template_id = (?)', position + 1, sequence_template_id).first
+    action_template.create_action_for(action.object) if action_template.present?
   end
 
   def send_email?
@@ -120,7 +121,8 @@ class Junket::ActionTemplate < ActiveRecord::Base
   end
 
   private
-  def create_action_for(object)
+
+  def create_action_for(_object)
     # creates action and schedule it...
     actions.create(run_datetime: run_after_duration.seconds.from_now, object_id: struct.id, object_type: struct.class.to_s).schedule!
   end

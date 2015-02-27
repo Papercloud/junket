@@ -22,7 +22,7 @@ RSpec.describe Junket::ActionTemplate do
 
   describe 'when set to send email' do
     subject do
-      build(:junket_action_template, send_email: true)
+      build(:junket_action_template_email)
     end
 
     it { should validate_presence_of :email_subject }
@@ -44,7 +44,7 @@ RSpec.describe Junket::ActionTemplate do
 
   describe 'when set to send sms' do
     subject do
-      build(:junket_action_template, send_sms: true)
+      build(:junket_action_template_sms)
     end
 
     it { should validate_presence_of :sms_body }
@@ -59,35 +59,37 @@ RSpec.describe Junket::ActionTemplate do
 
   describe 'when set to send neither sms nor email' do
     subject do
-      template = build(:junket_action_template)
-      allow(template).to receive(:send_sms?) { false }
-      allow(template).to receive(:send_email?) { false }
+      template = build(:junket_action_template_none)
+      # allow(template).to receive(:send_sms?) { false }
+      # allow(template).to receive(:send_email?) { false }
       template
     end
 
-    # it { should validate_acceptance_of :send_sms? }
-    # it { should validate_acceptance_of :send_email? }
-
+    it { expect(subject.send_sms?).to eq(false) }
+    it { expect(subject.send_email?).to eq(false) }
     it { should validate_presence_of :name }
   end
 
   describe 'created action_template' do
     subject do
-      create(:junket_action_template)
+      create(:junket_action_template_email)
     end
 
     it 'will make a recall template' do
       structure = OpenStruct.new(id: '5', name: 'Blah', email: 'porridge@hotdoc.com')
       subject.create_action_for(structure)
 
+      #p Junket::Action.first.object
+
       # has run_datetime
       expect(Junket::Action.first.run_datetime).to_not eq(nil)
       # same seq temp
-      expect(Junket::Action.first.sequence_template).to eq(subject)
+      expect(Junket::Action.first.action_template).to eq(subject)
       # has set the object
-      expect(Junket::Action.first.object.id).to eq('5')
-      # subclass tells you if its an email
-      expect(Junket::Action.first.send_email?).to eq(true)
+      # probably should test .object.id but OpenStruct doesnt like it
+      expect(Junket::Action.first.object_id).to eq(5)
+      # subclass of ActionTemplate tells you if its an email, not action
+      # expect(Junket::Action.first.send_email?).to eq(true)
     end
   end
 

@@ -107,20 +107,20 @@ class Junket::Action < ActiveRecord::Base
 
   # Finalize recipients, and send or schedule when done.
   def self.finalize_and_deliver(id, run_datetime)
-    campaign = find_by_id(id)
+    action = find_by_id(id)
     return unless campaign
 
-    puts "Finalizing Campaign #{id}"
+    puts "Finalizing Action #{id}"
 
-    campaign.finalize_recipients
+    action.finalize_recipients
 
-    puts "Targeted #{campaign.recipients.count} Recipients for Campaign #{id}"
+    puts "Targeted #{action.recipients.count} Recipients for Action #{id}"
 
     if run_datetime
-      puts "Delivery of Campaign #{id} scheduled for #{run_datetime}"
+      puts "Delivery of Action #{id} scheduled for #{run_datetime}"
       self.class.delay_until(run_datetime).deliver_instance(id)
     else
-      puts "Delivering Campaign #{id} now"
+      puts "Delivering Action #{id} now"
       self.class.deliver_instance(id)
     end
   end

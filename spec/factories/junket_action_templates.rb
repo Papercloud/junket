@@ -18,7 +18,7 @@
 
 FactoryGirl.define do
 
-  factory :junket_action_template, class: 'TestActionTemplateSubclass' do
+  factory :junket_action_template_none, class: 'TestActionTemplateSubclassNone' do
     sequence(:name) { |n| "A Template #{n}" }
     run_after_duration 10.minutes
     position 0
@@ -27,7 +27,31 @@ FactoryGirl.define do
     sms_body 'We have new features!'
     association :sequence_template, factory: :junket_sequence_template
 
-    type 'TestActionTemplateSubclass'
+    type 'TestActionTemplateSubclassNone'
+  end
+
+  factory :junket_action_template_email, class: 'TestActionTemplateSubclassEmail' do
+    sequence(:name) { |n| "A Template #{n}" }
+    run_after_duration 10.minutes
+    position 0
+    email_subject 'Exciting New Features!'
+    email_body 'Hi, check out our new features!'
+    sms_body 'We have new features!'
+    association :sequence_template, factory: :junket_sequence_template
+
+    type 'TestActionTemplateSubclassEmail'
+  end
+
+  factory :junket_action_template_sms, class: 'TestActionTemplateSubclassSms' do
+    sequence(:name) { |n| "A Template #{n}" }
+    run_after_duration 10.minutes
+    position 0
+    email_subject 'Exciting New Features!'
+    email_body 'Hi, check out our new features!'
+    sms_body 'We have new features!'
+    association :sequence_template, factory: :junket_sequence_template
+
+    type 'TestActionTemplateSubclassSms'
   end
 
 end

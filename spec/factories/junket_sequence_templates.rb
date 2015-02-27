@@ -21,7 +21,7 @@ FactoryGirl.define do
     after(:create) do |t, _evaluator|
       # create two action templates.
       2.times do |n|
-        t.action_templates.create(attributes_for(:junket_action_template).merge(sequence_template: t, position: n))
+        t.action_templates.create(attributes_for(:junket_action_template_sms).merge(sequence_template: t, position: n))
       end
     end
   end

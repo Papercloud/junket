@@ -31,10 +31,16 @@ class Junket::Action < ActiveRecord::Base
 
     event :deliver do
       transitions from: :scheduled, to: :sent
+      after do
+        self.action_template.create_next_action(self)
+      end
     end
 
     event :schedule do
       transitions from: :waiting, to: :scheduled
+      after do
+        self.schedule_delivery
+      end
     end
   end
 
@@ -54,11 +60,14 @@ class Junket::Action < ActiveRecord::Base
     end
   end
 
+
+
   private
 
   # Schedule a Sidekiq job to deliver in the future, at 'run_datetime'
   def schedule_delivery
     # Schedule to send in the future
+
     self.class.delay.finalize_and_deliver(id, run_datetime)
   end
 

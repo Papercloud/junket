@@ -21,30 +21,42 @@ class Junket::Action < ActiveRecord::Base
   validates_presence_of :run_datetime, :action_template, :sequence_template, :object_id, :object_type # allow objects that dont exist to not invalidate the action
 
   has_one :sequence_template, through: :action_template
+  has_many :recipients
 
   # State machine to manage waiting/scheduled/sent state.
   include AASM
   aasm column: :state do
     state :waiting, initial: true
-    state :scheduled, before_enter: :schedule_delivery
+    state :scheduled # , before_enter: :schedule_delivery, #KG, had to just rely on the deliver event calling this instead.
     state :sent, before_enter: :send_everything
 
     event :deliver do
       transitions from: :scheduled, to: :sent
       after do
-        self.action_template.create_next_action(self)
+        action_template.create_next_action(self)
       end
     end
 
     event :schedule do
       transitions from: :waiting, to: :scheduled
       after do
-        self.send(:schedule_delivery)
+        send(:schedule_delivery)
       end
     end
   end
 
   ## Targeting
+
+  def targets
+    base_targets = Junket.targets.call(self)
+
+    # Build Ransack query with all filter conditions
+    query = action_template.filter_conditions.each_with_object({}) do |condition, q|
+      q[condition.filter.term] = condition.value
+    end
+
+    base_targets.search(query).result(distinct: true)
+  end
 
   # Number of targets meeting this campaign's FilterConditions at this point in time.
   def targets_count
@@ -60,9 +72,8 @@ class Junket::Action < ActiveRecord::Base
     end
   end
 
-
-
   private
+
   # Schedule a Sidekiq job to deliver in the future, at 'run_datetime'
   def schedule_delivery
     # Schedule to send in the future
@@ -73,8 +84,8 @@ class Junket::Action < ActiveRecord::Base
   # Don't call this directly, use the 'send' state machine event instead.
   def send_everything
     recipients.each do |recipient|
-      send_sms_to(recipient) if self.send_sms?
-      send_email_to(recipient) if self.send_email?
+      send_sms_to(recipient) if action_template.send_sms?
+      send_email_to(recipient) if action_template.send_email?
     end
   end
 
@@ -120,15 +131,17 @@ class Junket::Action < ActiveRecord::Base
     puts "Finalizing Action #{id}"
 
     action.finalize_recipients
+    # I just have to save here
+    action.save!
 
     puts "Targeted #{action.recipients.count} Recipients for Action #{id}"
 
     if run_datetime
       puts "Delivery of Action #{id} scheduled for #{run_datetime}"
-      self.class.delay_until(run_datetime).deliver_instance(id)
+      delay_until(run_datetime).deliver_instance(id)
     else
       puts "Delivering Action #{id} now"
-      self.class.deliver_instance(id)
+      deliver_instance(id)
     end
   end
 

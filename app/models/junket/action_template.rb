@@ -40,16 +40,16 @@ class Junket::ActionTemplate < ActiveRecord::Base
 
   validates_presence_of :name, :sequence_template
 
-  with_options if: :send_email? do
-    validates :email_subject, presence: true
-    validates :email_subject, length: { maximum: 78 }
-    validates :email_body, presence: true
-  end
-
-  with_options if: :send_sms? do
-    validates :sms_body, presence: true
-    validates :sms_body, length: { maximum: 160 }
-  end
+  # with_options if: :send_email?
+  #   validates :email_subject, presence: true
+  #   validates :email_subject, length: { maximum: 78 }
+  #   validates :email_body, presence: true
+  # end
+  #
+  # with_options if: :send_sms?
+  #   validates :sms_body, presence: true
+  #   validates :sms_body, length: { maximum: 160 }
+  # end
 
   # By default sms and email sending is ok, override in subclass
   validates :send_sms, acceptance: { accept: true }, unless: :send_email?
@@ -69,7 +69,7 @@ class Junket::ActionTemplate < ActiveRecord::Base
     return unless action.present?
     # Making assumption here that action templates for a sequence template have
     # position that increments by 1 each time, will bail if the is a gap
-    action_template = ActionTemplate.where('position = (?) AND sequence_template_id = (?)', position + 1, sequence_template_id).first
+    action_template = Junket::ActionTemplate.where('position = (?) AND sequence_template_id = (?)', position + 1, sequence_template_id).first
     action_template.create_action_for(action.object) if action_template.present?
   end
 
@@ -81,17 +81,8 @@ class Junket::ActionTemplate < ActiveRecord::Base
     fail 'Please implement in subclass'
   end
 
-  ## Targeting
-
-  def targets
-    base_targets = Junket.targets.call(self)
-
-    # Build Ransack query with all filter conditions
-    query = filter_conditions.each_with_object({}) do |condition, q|
-      q[condition.filter.term] = condition.value
-    end
-
-    base_targets.search(query).result(distinct: true)
+  def resolve_targets
+    fail 'Please implement in subclass'
   end
 
   ## Templating
@@ -122,7 +113,7 @@ class Junket::ActionTemplate < ActiveRecord::Base
 
   private
 
-  def create_action_for(_object)
+  def create_action_for(object)
     # creates action and schedule it...
     actions.create(run_datetime: run_after_duration.seconds.from_now, object_id: object.id, object_type: object.class.to_s).schedule!
   end

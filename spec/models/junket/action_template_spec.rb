@@ -76,7 +76,7 @@ RSpec.describe Junket::ActionTemplate do
     end
 
     it 'will make a recall template' do
-      structure = OpenStruct.new(id: '5', name: 'Blah', email: 'porridge@hotdoc.com')
+      structure = OpenStruct.new(id: 5, name: 'Blah', email: 'porridge@hotdoc.com')
       subject.create_action_for(structure)
 
       #p Junket::Action.first.object

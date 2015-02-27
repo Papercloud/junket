@@ -49,7 +49,7 @@ class Junket::Action < ActiveRecord::Base
   def finalize_recipients
     targets.each do |target|
       # TODO: Put each recipient on another job to keep per-job execution time low?
-      recipient = Junket::Recipient.new(target: target, campaign: self)
+      recipient = Junket::Recipient.new(target: target, action: self)
       recipient.save!
     end
   end
@@ -108,7 +108,7 @@ class Junket::Action < ActiveRecord::Base
   # Finalize recipients, and send or schedule when done.
   def self.finalize_and_deliver(id, run_datetime)
     action = find_by_id(id)
-    return unless campaign
+    return unless action
 
     puts "Finalizing Action #{id}"
 
@@ -127,7 +127,7 @@ class Junket::Action < ActiveRecord::Base
 
   # Class method used as a Sidekiq worker
   def self.deliver_instance(id)
-    campaign = find_by_id(id)
-    campaign.deliver!
+    action = find_by_id(id)
+    action.deliver!
   end
 end

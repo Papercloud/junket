@@ -58,6 +58,8 @@ class Junket::ActionTemplate < ActiveRecord::Base
 
   def create_action_for(struct)
     # creates actoin and schedule it...
+    return if actions.where(object_id: struct.id, object_type: struct.class.to_s).count > 0
+
     actions.create(run_datetime: run_after_duration.seconds.from_now, object_id: struct.id, object_type: struct.class.to_s).schedule!
   end
 

@@ -34,11 +34,10 @@ class Junket::ActionTemplate < ActiveRecord::Base
   # Uses of this template. Don't allow deletion of the template if it's used on a
   # action, as the template holds the action's copy.
   has_many :actions, dependent: :destroy
-  has_many :sequence_action_times, dependent: :destroy
 
   ## Validations
 
-  validates_presence_of :name, :sequence_template
+  validates_presence_of :name, :sequence_template, :run_after_duration
 
   # with_options if: :send_email?
   #   validates :email_subject, presence: true

@@ -95,7 +95,7 @@ class Junket::Action < ActiveRecord::Base
       # TODO: DSL for declaring on a target class which property to use for its mobile number.
       # TODO: DSL for declaring which of the owner's properties becomes the 'sms_from_name': it shouldn't be defined globally.
 
-      body_template = Liquid::Template.parse(sms_body)
+      body_template = Liquid::Template.parse(action_template.resolve_sms_body(self))
       body = body_template.render(recipient.target.class.name.underscore => recipient.target)
       Junket.sms_adapter.constantize.send_sms(recipient.target.mobile, body, Junket.sms_from_name)
     else

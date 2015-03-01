@@ -4,9 +4,9 @@ module Junket
       :id,
       :value,
       :campaign_id,
-      :campaign_template_id
+      :action_template_id
 
-    def campaign_template_id
+    def action_template_id
       object.campaign_id
     end
 

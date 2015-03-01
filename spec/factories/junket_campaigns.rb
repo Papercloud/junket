@@ -4,10 +4,10 @@
 #
 #  id                   :integer          not null, primary key
 #  name                 :string(255)
-#  send_at              :datetime
+#  run_datetime              :datetime
 #  owner_id             :integer
 #  owner_type           :string(255)
-#  campaign_template_id :integer
+#  action_template_id :integer
 #  created_at           :datetime
 #  updated_at           :datetime
 #

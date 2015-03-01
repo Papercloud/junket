@@ -10,12 +10,15 @@ class Junket::Ability
       access_level: 'public'
     }
 
-    can :manage, Junket::CampaignTemplate, private_template_conditions
-    can [:index, :show, :public], Junket::CampaignTemplate, public_template_conditions
+    can :manage, Junket::ActionTemplate, sequence_template: private_template_conditions
+    can [:index, :show, :public], Junket::ActionTemplate, sequence_template: public_template_conditions
+    can [:create], Junket::ActionTemplate, sequence_template: public_template_conditions
 
     can :manage, Junket::FilterCondition, campaign: private_template_conditions
-    can [:index, :show], Junket::FilterCondition, campaign_template: public_template_conditions
+    can [:index, :show], Junket::FilterCondition, sequence_template: public_template_conditions
 
-    can :manage, Junket::Campaign, private_template_conditions
+    can :manage, Junket::SequenceTemplate, private_template_conditions
+    # can still see the public templates
+    can [:index, :show, :public], Junket::SequenceTemplate, public_template_conditions
   end
 end

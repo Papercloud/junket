@@ -8,6 +8,8 @@ require 'rspec_api_documentation'
 require 'rspec_api_documentation/dsl'
 require 'database_cleaner'
 require 'json_spec'
+require 'pry'
+require 'sidekiq'
 
 require 'junket'
 

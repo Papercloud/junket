@@ -32,11 +32,11 @@ ActiveAdmin.register Junket::CampaignTemplate, as: 'Template' do
 
   controller do
     def permitted_params
-      params.permit(campaign_template: [:name, :campaign_name, :email_subject, :email_body, :sms_body, :send_email, :send_sms])
+      params.permit(action_template: [:name, :campaign_name, :email_subject, :email_body, :sms_body, :send_email, :send_sms])
     end
 
     def resource_request_name
-      :campaign_template
+      :action_template
     end
 
     def create

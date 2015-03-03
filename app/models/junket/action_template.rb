@@ -58,6 +58,10 @@ class Junket::ActionTemplate < ActiveRecord::Base
 
   acts_as_list
 
+  def nth_in_sequence_for_type
+    sequence_template.action_templates.where(type: type).order('position').find_index self
+  end
+
   def create_first_action(object)
     # You can only kick off a sequence for a particular recall once
     return if actions.where(object_id: object.id, object_type: object.class.to_s).count > 0

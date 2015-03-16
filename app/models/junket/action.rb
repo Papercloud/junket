@@ -45,6 +45,10 @@ class Junket::Action < ActiveRecord::Base
     end
   end
 
+  # def destroy
+  # destroy the old sidekiq job.
+  # end
+
   ## Targeting
 
   def targets
@@ -115,8 +119,8 @@ class Junket::Action < ActiveRecord::Base
       # TODO: Need to define campaign owner interface for sender name and email.
       subject_template.render(recipient.target.class.name.underscore => recipient.target),
       body_template.render(recipient.target.class.name.underscore => recipient.target),
-      owner.name,
-      owner.email)
+      owner.try(:name),
+      owner.try(:email))
 
     # Save the email's unique identifier, so we can receive a webhook to tell when it has been opened or clicked.
     recipient.email_third_party_id = email_id
@@ -148,6 +152,6 @@ class Junket::Action < ActiveRecord::Base
   # Class method used as a Sidekiq worker
   def self.deliver_instance(id)
     action = find_by_id(id)
-    action.deliver!
+    action.deliver! if action
   end
 end

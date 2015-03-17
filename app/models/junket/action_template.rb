@@ -77,6 +77,11 @@ class Junket::ActionTemplate < ActiveRecord::Base
     true
   end
 
+  # Queue actions in sidekiq immediately? or use a perodic job to send them later.
+  def should_queue?
+    true
+  end
+
   def send_email?
     fail 'Please implement in subclass'
   end

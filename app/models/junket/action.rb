@@ -101,7 +101,11 @@ class Junket::Action < ActiveRecord::Base
 
       body_template = Liquid::Template.parse(action_template.resolve_sms_body(self))
       body = body_template.render(recipient.target.class.name.underscore => recipient.target)
-      Junket.sms_adapter.constantize.send_sms(recipient.target.mobile, body, Junket.sms_from_name)
+
+      if action_template.should_send_sms(self)
+        Junket.sms_adapter.constantize.send_sms(recipient.target.mobile, body, Junket.sms_from_name)
+      end
+
     else
       fail 'Please set config.sms_adapter and config.sms_from_name in your Junket initialiser'
     end

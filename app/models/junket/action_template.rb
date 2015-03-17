@@ -72,6 +72,11 @@ class Junket::ActionTemplate < ActiveRecord::Base
     action_template.create_action_for(action.object) if action_template.present?
   end
 
+  # Hooks to override
+  def should_send_sms?
+    true
+  end
+
   def send_email?
     fail 'Please implement in subclass'
   end
@@ -83,6 +88,7 @@ class Junket::ActionTemplate < ActiveRecord::Base
   def resolve_targets
     fail 'Please implement in subclass'
   end
+  # END Hooks to override
 
   ## Templating
 

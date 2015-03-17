@@ -146,7 +146,7 @@ class Junket::Action < ActiveRecord::Base
 
     if run_datetime
       puts "Delivery of Action #{id} scheduled for #{run_datetime}"
-      if action_template.should_queue?
+      if action.action_template.should_queue?
         delay_until(run_datetime).deliver_instance(id)
       end
     else

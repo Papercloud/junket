@@ -121,8 +121,6 @@ class Junket::ActionTemplate < ActiveRecord::Base
     Liquid::Template.parse(send(attribute)).render(viewer.class.name.underscore => viewer)
   end
 
-  private
-
   def create_action_for(object)
     # creates action and schedule it...
     actions.create(run_datetime: run_after_duration.seconds.from_now, object_id: object.id, object_type: object.class.to_s).schedule!

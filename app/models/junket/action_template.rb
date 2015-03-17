@@ -73,7 +73,7 @@ class Junket::ActionTemplate < ActiveRecord::Base
   end
 
   # Hooks to override
-  def should_send_sms?
+  def should_send_sms?(_action)
     true
   end
 

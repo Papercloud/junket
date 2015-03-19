@@ -56,7 +56,7 @@ class Junket::ActionTemplate < ActiveRecord::Base
 
   validate :valid_liquid_markup?
 
-  acts_as_list
+  acts_as_list scope: :sequence_template
 
   def create_first_action(object)
     # You can only kick off a sequence for a particular recall once

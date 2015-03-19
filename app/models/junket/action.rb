@@ -33,6 +33,7 @@ class Junket::Action < ActiveRecord::Base
     event :deliver do
       transitions from: :scheduled, to: :sent
       after do
+        puts "Creating the next action from action #{id}"
         action_template.create_next_action(self)
       end
     end

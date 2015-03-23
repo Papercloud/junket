@@ -94,6 +94,10 @@ class Junket::Action < ActiveRecord::Base
     end
   end
 
+  def from_name
+    Junket.sms_from_name_method ? object.send(Junket.sms_from_name_method) : Junket.sms_from_name
+  end
+
   # Sends the campaign's SMS body to a recipient.
   def send_sms_to(recipient)
     if Junket.sms_adapter && Junket.sms_from_name
@@ -104,7 +108,7 @@ class Junket::Action < ActiveRecord::Base
       body = body_template.render(recipient.target.class.name.underscore => recipient.target)
 
       if action_template.should_send_sms?(self)
-        Junket.sms_adapter.constantize.send_sms(recipient.target.mobile, body, Junket.sms_from_name)
+        Junket.sms_adapter.constantize.send_sms(recipient.target.mobile, body, from_name)
       end
 
     else

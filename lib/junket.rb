@@ -22,6 +22,9 @@ module Junket
   mattr_accessor :email_adapter
   @email_adapter = nil
 
+  mattr_accessor :sms_from_name_method
+  @sms_from_name_method = nil
+
   # Used to set up Junket from the initializer.
   def self.setup
     yield self

@@ -27,12 +27,18 @@ class Junket::Action < ActiveRecord::Base
   include AASM
   aasm column: :state do
     state :waiting, initial: true
+    state :error
     state :scheduled # , before_enter: :schedule_delivery, #KG, had to just rely on the deliver event calling this instead.
     state :sent, before_enter: :send_everything
+
+    event :become_errror do
+      transitions from: :scheduled, to: :error
+    end
 
     event :deliver do
       transitions from: :scheduled, to: :sent
       after do
+        action_template.mark_object_as_sent(self)
         puts "Creating the next action from action #{id}"
         action_template.create_next_action(self)
       end
@@ -77,6 +83,14 @@ class Junket::Action < ActiveRecord::Base
     end
   end
 
+  def deliver_or_error
+    if action_template.should_send?(self)
+      deliver!
+    else
+      become_errror!
+    end
+  end
+
   private
 
   # Schedule a Sidekiq job to deliver in the future, at 'run_datetime'
@@ -100,17 +114,13 @@ class Junket::Action < ActiveRecord::Base
 
   # Sends the campaign's SMS body to a recipient.
   def send_sms_to(recipient)
-    if Junket.sms_adapter && Junket.sms_from_name
+    if Junket.sms_adapter && from_name
       # TODO: DSL for declaring on a target class which property to use for its mobile number.
       # TODO: DSL for declaring which of the owner's properties becomes the 'sms_from_name': it shouldn't be defined globally.
 
       body_template = Liquid::Template.parse(action_template.resolve_sms_body(self))
       body = body_template.render(recipient.target.class.name.underscore => recipient.target)
-
-      if action_template.should_send_sms?(self)
-        Junket.sms_adapter.constantize.send_sms(recipient.target.mobile, body, from_name)
-      end
-
+      Junket.sms_adapter.constantize.send_sms(recipient.target.mobile, body, from_name)
     else
       fail 'Please set config.sms_adapter and config.sms_from_name in your Junket initialiser'
     end
@@ -163,6 +173,6 @@ class Junket::Action < ActiveRecord::Base
   # Class method used as a Sidekiq worker
   def self.deliver_instance(id)
     action = find_by_id(id)
-    action.deliver! if action
+    action.deliver_or_error if action
   end
 end

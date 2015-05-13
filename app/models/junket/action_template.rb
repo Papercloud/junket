@@ -81,6 +81,10 @@ class Junket::ActionTemplate < ActiveRecord::Base
     true
   end
 
+  def delay_send(_object)
+    false
+  end
+
   # Queue actions in sidekiq immediately? or use a perodic job to send them later.
   def should_queue?
     true
@@ -125,8 +129,16 @@ class Junket::ActionTemplate < ActiveRecord::Base
     Liquid::Template.parse(send(attribute)).render(viewer.class.name.underscore => viewer)
   end
 
+  def resolve_rundatetime(time, object)
+    if delay_send(object)
+      delay_send(object) + time.seconds
+    else
+      time.seconds_from_now
+    end
+  end
+
   def create_action_for(object)
     # creates action and schedule it...
-    actions.create(run_datetime: run_after_duration.seconds.from_now, object_id: object.id, object_type: object.class.to_s).schedule!
+    actions.create(run_datetime: resolve_rundatetime(run_after_duration, object), object_id: object.id, object_type: object.class.to_s).schedule!
   end
 end

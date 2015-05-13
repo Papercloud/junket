@@ -33,6 +33,10 @@ class Junket::Action < ActiveRecord::Base
 
     event :become_errror do
       transitions from: :scheduled, to: :error
+      after do
+        # "Even though it's an error, create the next action in case it becomes in a valid state later.
+        action_template.create_next_action(self)
+      end
     end
 
     event :deliver do

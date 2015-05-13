@@ -133,7 +133,7 @@ class Junket::ActionTemplate < ActiveRecord::Base
     if delay_send(object)
       delay_send(object) + time.seconds
     else
-      time.seconds_from_now
+      time.seconds.from_now
     end
   end
 

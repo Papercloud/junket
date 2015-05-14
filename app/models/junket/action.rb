@@ -27,12 +27,20 @@ class Junket::Action < ActiveRecord::Base
   include AASM
   aasm column: :state do
     state :waiting, initial: true
+    # It means the action should not send
+    # It means the action should trigger next action
     state :error
     state :scheduled # , before_enter: :schedule_delivery, #KG, had to just rely on the deliver event calling this instead.
     state :sent, before_enter: :send_everything
+    # This state in entered when action template is destroyed, leading to an action in this state.
+    # It means the action should not send
+    # It means the action should trigger next action
+    # It means the action can be linked up again to a new template and then go back to scheduled state.
+    # You can only get into this state from scheduled.
+    state :dead_template
 
     event :become_errror do
-      transitions from: :scheduled, to: :error
+      transitions from: [:scheduled, :dead_template], to: :error
       after do
         # "Even though it's an error, create the next action in case it becomes in a valid state later.
         action_template.create_next_action(self)
@@ -88,7 +96,7 @@ class Junket::Action < ActiveRecord::Base
   end
 
   def deliver_or_error
-    if action_template.should_send?(self)
+    if action_template.should_send?(self) && state != 'dead_template'
       deliver!
     else
       become_errror!

@@ -58,9 +58,20 @@ class Junket::ActionTemplate < ActiveRecord::Base
 
   acts_as_list scope: :sequence_template
 
+  def self.not_dead
+    where(is_dead: false)
+  end
+
+  def self.in_order
+    order('position')
+  end
+
+  def self.dead
+    where(is_dead: true)
+  end
+
   def create_first_action(object)
-    # You can only kick off a sequence for a particular recall once
-    return if actions.where(object_id: object.id, object_type: object.class.to_s).count > 0
+    return if actions.where(state: 'scheduled', object_id: object.id, object_type: object.class.to_s).count > 0
     create_action_for(object)
   end
 
@@ -70,6 +81,11 @@ class Junket::ActionTemplate < ActiveRecord::Base
     # position that increments by 1 each time, will bail if the is a gap
     action_template = Junket::ActionTemplate.where('position = (?) AND sequence_template_id = (?)', position + 1, sequence_template_id).first
     action_template.create_action_for(action.object) if action_template.present?
+  end
+
+  def create_action_for(object)
+    # creates action and schedule it...
+    actions.create(run_datetime: resolve_rundatetime(run_after_duration, object), object_id: object.id, object_type: object.class.to_s).schedule!
   end
 
   # Hooks to override
@@ -129,16 +145,12 @@ class Junket::ActionTemplate < ActiveRecord::Base
     Liquid::Template.parse(send(attribute)).render(viewer.class.name.underscore => viewer)
   end
 
+  # find out if the rundatetime should be delayed and until when
   def resolve_rundatetime(time, object)
     if delay_send(object)
       delay_send(object) + time.seconds
     else
       time.seconds.from_now
     end
-  end
-
-  def create_action_for(object)
-    # creates action and schedule it...
-    actions.create(run_datetime: resolve_rundatetime(run_after_duration, object), object_id: object.id, object_type: object.class.to_s).schedule!
   end
 end

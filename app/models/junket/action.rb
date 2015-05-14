@@ -23,6 +23,10 @@ class Junket::Action < ActiveRecord::Base
   has_one :sequence_template, through: :action_template
   has_many :recipients
 
+  def self.in_order
+    order('created_at')
+  end
+
   # State machine to manage waiting/scheduled/sent state.
   include AASM
   aasm column: :state do
@@ -96,7 +100,7 @@ class Junket::Action < ActiveRecord::Base
   end
 
   def deliver_or_error
-    if action_template.should_send?(self) && state != 'dead_template'
+    if action_template.should_send?(self) && scheduled?
       deliver!
     else
       become_errror!

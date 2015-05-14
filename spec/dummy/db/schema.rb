@@ -23,9 +23,9 @@ ActiveRecord::Schema.define(version: 20_150_514_045_730) do
     t.datetime 'updated_at'
     t.string 'type'
     t.integer 'sequence_template_id'
-    t.integer 'run_after_duration',   default: 0,    null: false
-    t.integer 'position',             default: 0,    null: false
-    t.boolean 'is_dead',              default: true, null: false
+    t.integer 'run_after_duration',   default: 0,     null: false
+    t.integer 'position',             default: 0,     null: false
+    t.boolean 'is_dead',              default: false, null: false
   end
 
   add_index 'junket_action_templates', ['sequence_template_id'], name: 'index_junket_action_templates_on_sequence_template_id'

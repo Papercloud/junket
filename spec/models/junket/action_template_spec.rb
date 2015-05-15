@@ -14,6 +14,7 @@
 #  sequence_template_id :integer
 #  run_after_duration   :integer          default(0), not null
 #  position             :integer          default(0), not null
+#  is_dead              :boolean          default(FALSE), not null
 #
 
 require 'sidekiq/testing'

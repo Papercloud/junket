@@ -9,6 +9,7 @@
 #  access_level :string(255)      default("private"), not null
 #  created_at   :datetime
 #  updated_at   :datetime
+#  default_body :text
 #
 
 FactoryGirl.define do

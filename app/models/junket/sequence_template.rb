@@ -28,5 +28,9 @@ class Junket::SequenceTemplate < ActiveRecord::Base
     super new_level.to_s
   end
 
+  def body
+    default_body
+  end
+
   validates :access_level, inclusion: { in: %w(public private) }
 end

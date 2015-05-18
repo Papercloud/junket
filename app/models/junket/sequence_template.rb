@@ -19,6 +19,7 @@ class Junket::SequenceTemplate < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
   has_many :action_templates, dependent: :destroy
   has_many :actions, through: :action_templates
+  belongs_to :forked_from, class_name: 'Junket::SequenceTemplate'
 
   validates_presence_of :name, :owner_id, :owner_type
 

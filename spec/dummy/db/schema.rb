@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_150_515_065_932) do
+ActiveRecord::Schema.define(version: 20_150_518_014_048) do
 
   create_table 'junket_action_templates', force: true do |t|
     t.string 'name'
@@ -76,13 +76,14 @@ ActiveRecord::Schema.define(version: 20_150_515_065_932) do
   add_index 'junket_recipients', %w(target_id target_type), name: 'index_junket_recipients_on_target_id_and_target_type'
 
   create_table 'junket_sequence_templates', force: true do |t|
-    t.string 'name',                             null: false
+    t.string 'name',                               null: false
     t.integer 'owner_id'
     t.string 'owner_type'
-    t.string 'access_level', default: 'private', null: false
+    t.string 'access_level',   default: 'private', null: false
     t.datetime 'created_at'
     t.datetime 'updated_at'
     t.text 'default_body'
+    t.integer 'forked_from_id'
   end
 
   add_index 'junket_sequence_templates', %w(owner_id owner_type), name: 'index_junket_sequence_templates_on_owner_id_and_owner_type'

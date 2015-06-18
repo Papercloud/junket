@@ -16,9 +16,13 @@ FactoryGirl.define do
 
   factory :junket_action, class: 'Junket::Action' do
     run_datetime 10.minutes.from_now
-    association :sequence, factory: :junket_sequence
-    association :action_template, factory: :junket_action_template
+    association :action_template, factory: :junket_action_template_sms
     state 'scheduled'
+
+    before(:create) do |obj, _eval|
+      obj.object_id = 1
+      obj.object_type = 'OpenStruct'
+    end
   end
 
 end

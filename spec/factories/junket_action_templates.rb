@@ -29,30 +29,16 @@ FactoryGirl.define do
     association :sequence_template, factory: :junket_sequence_template
 
     type 'TestActionTemplateSubclassNone'
-  end
 
-  factory :junket_action_template_email, class: 'TestActionTemplateSubclassEmail' do
-    sequence(:name) { |n| "A Template #{n}" }
-    run_after_duration 10.minutes
-    position 0
-    email_subject 'Exciting New Features!'
-    email_body 'Hi, check out our new features!'
-    sms_body 'We have new features!'
-    association :sequence_template, factory: :junket_sequence_template
-
-    type 'TestActionTemplateSubclassEmail'
-  end
-
-  factory :junket_action_template_sms, class: 'TestActionTemplateSubclassSms' do
-    sequence(:name) { |n| "A Template #{n}" }
-    run_after_duration 10.minutes
-    position 0
-    email_subject 'Exciting New Features!'
-    email_body 'Hi, check out our new features!'
-    sms_body 'We have new features!'
-    association :sequence_template, factory: :junket_sequence_template
-
-    type 'TestActionTemplateSubclassSms'
+    factory :junket_action_template_email, class: 'TestActionTemplateSubclassEmail' do
+      type 'TestActionTemplateSubclassEmail'
+    end
+    factory :junket_action_template_sms, class: 'TestActionTemplateSubclassSms' do
+      type 'TestActionTemplateSubclassSms'
+    end
+    factory :junket_action_template_sms_with_error_logs, class: 'TestActionTemplateSubclassSmsWithErrorLogs' do
+      type 'TestActionTemplateSubclassSmsWithErrorLogs'
+    end
   end
 
 end

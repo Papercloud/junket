@@ -9,6 +9,7 @@ PATH
       liquid
       mandrill-api
       mandrill-rails
+      pg
       pry
       rails (>= 3.2)
       ransack
@@ -18,7 +19,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    aasm (4.1.0)
+    aasm (4.1.1)
     actionmailer (4.1.6)
       actionpack (= 4.1.6)
       actionview (= 4.1.6)
@@ -52,7 +53,7 @@ GEM
     arel (5.0.1.20140414130214)
     ast (2.0.0)
     builder (3.2.2)
-    cancancan (1.10.1)
+    cancancan (1.11.0)
     celluloid (0.15.2)
       timers (~> 1.1.0)
     coderay (1.1.0)
@@ -60,7 +61,7 @@ GEM
     database_cleaner (1.3.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
-    excon (0.44.3)
+    excon (0.45.3)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.4.1)
@@ -83,7 +84,7 @@ GEM
     json_spec (1.1.2)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
-    liquid (3.0.1)
+    liquid (3.0.3)
     listen (2.7.9)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
@@ -94,7 +95,7 @@ GEM
     mandrill-api (1.0.53)
       excon (>= 0.16.0, < 1.0)
       json (>= 1.7.7, < 2.0)
-    mandrill-rails (1.0.2)
+    mandrill-rails (1.2.0)
       activesupport (>= 3.0.3)
     method_source (0.8.2)
     mime-types (2.4.3)
@@ -104,7 +105,8 @@ GEM
     parser (2.2.0.pre.4)
       ast (>= 1.1, < 3.0)
       slop (~> 3.4, >= 3.4.5)
-    polyamorous (1.1.0)
+    pg (0.18.2)
+    polyamorous (1.2.0)
       activerecord (>= 3.0)
     powerpack (0.0.9)
     pry (0.10.0)
@@ -131,12 +133,12 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.0.0)
     rake (10.3.2)
-    ransack (1.6.3)
+    ransack (1.6.6)
       actionpack (>= 3.0)
       activerecord (>= 3.0)
       activesupport (>= 3.0)
       i18n
-      polyamorous (~> 1.1)
+      polyamorous (~> 1.2)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)

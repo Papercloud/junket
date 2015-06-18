@@ -4,6 +4,6 @@ class TestActionTemplateSubclassSmsWithErrorLogs < TestActionTemplateSubclassSms
   end
 
   def sms_errors(_action)
-    [:asdf, :fdsa]
+    '{asdf, fdsa}'
   end
 end

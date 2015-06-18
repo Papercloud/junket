@@ -23,7 +23,8 @@ require 'liquid'
 # multiple campaigns (mail-outs), or represent the content of a single customised mail-out.
 # Now has to belong to a sequence template
 class Junket::ActionTemplate < ActiveRecord::Base
-  attr_accessible :name, :type, :email_body, :sms_body, :run_after_duration, :sequence_template_id, :sequence_template if Rails.version[0] == '3'
+  include ActiveModel::ForbiddenAttributesProtection
+  # attr_accessible :name, :type, :email_body, :sms_body, :run_after_duration, :sequence_template_id, :sequence_template if Rails.version[0] == '3'
 
   ## Associations
   # Used with 'access_level' for access control. See Junket::Ability.

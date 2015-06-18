@@ -15,9 +15,10 @@ RSpec.describe Junket::Action do
 
   it 'makes errors on action' do
     subject.become_error!
+    subject.reload
 
     expect(subject.error?).to eq(true)
-    expect(subject.error_reason).to eq([:asdf, :fdsa])
+    expect(subject.error_reason).to eq(%w(asdf fdsa))
   end
 
   it 'makes no errors on action' do

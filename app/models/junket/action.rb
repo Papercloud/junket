@@ -14,7 +14,7 @@
 
 # Each event in a sequence, this has details of low level events such as an sms being sent and when.
 class Junket::Action < ActiveRecord::Base
-  attr_accessible :error_reason if Rails.version[0] == '3'
+  include ActiveModel::ForbiddenAttributesProtection
 
   belongs_to :object, polymorphic: true
   belongs_to :action_template
@@ -48,7 +48,10 @@ class Junket::Action < ActiveRecord::Base
       transitions from: [:scheduled, :dead_template], to: :error
       after do
         if defined? action_template.sms_errors(self)
-          update_attributes error_reason: action_template.sms_errors(self)
+          # HACK: for rails 3...
+          # replace with below when hotdoc becomes rails 4
+          # update_attributes error_reason: action_template.sms_errors(self)
+          Junket::Action.where(id: id).update_all error_reason: action_template.sms_errors(self)
         end
         # "Even though it's an error, create the next action in case it becomes in a valid state later.
         action_template.create_next_action(self)

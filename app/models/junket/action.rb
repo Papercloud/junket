@@ -16,7 +16,7 @@
 class Junket::Action < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
-  belongs_to :object, polymorphic: true
+  belongs_to :object, polymorphic: true, counter_cache: true
   belongs_to :action_template
 
   validates_presence_of :run_datetime, :action_template, :sequence_template, :object_id, :object_type # allow objects that dont exist to not invalidate the action
